@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Register | HunarHub</title>
+
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Custom CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="auth-body">
+
+    <main class="auth-page">
+
+        <div class="auth-wrapper register-wrapper">
+
+            <!-- Left Image Section -->
+            <section class="auth-visual">
+
+                <img
+                    src="{{ url_for('static', filename='images/seller.jpg') }}"
+                    alt="Local entrepreneur selling handmade products">
+
+                <div class="auth-overlay"></div>
+
+                <a href="{{ url_for('home') }}" class="auth-logo">
+
+                    <span class="logo-icon">
+                        <i class="bi bi-shop"></i>
+                    </span>
+
+                    <span class="logo-text">
+                        Hunar<span>Hub</span>
+                    </span>
+
+                </a>
+
+                <div class="auth-visual-content">
+
+                    <span class="auth-small-label">
+                        Join HunarHub
+                    </span>
+
+                    <h1>
+                        Create your account.
+                        Discover new opportunities.
+                    </h1>
+
+                    <p>
+                        Register as a customer to explore products and services,
+                        or join as an entrepreneur to showcase your skills.
+                    </p>
+
+                    <div class="auth-trust-list">
+
+                        <span>
+                            <i class="bi bi-bag-check-fill"></i>
+                            Discover unique products
+                        </span>
+
+                        <span>
+                            <i class="bi bi-person-workspace"></i>
+                            Build your entrepreneur profile
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- Registration Form Section -->
+            <section class="auth-form-section register-form-section">
+
+                <div class="auth-form-container">
+
+                    <a href="{{ url_for('home') }}" class="back-home-link">
+                        <i class="bi bi-arrow-left"></i>
+                        Back to Home
+                    </a>
+
+                    <div class="auth-heading">
+
+                        <span>Create Account</span>
+
+                        <h2>Register on HunarHub</h2>
+
+                        <p>
+                            Enter your information and select how you want
+                            to use the marketplace.
+                        </p>
+
+                    </div>
+
+
+                    <!-- Flash Messages -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+
+                        {% if messages %}
+
+                            {% for category, message in messages %}
+
+                                <div
+                                    class="alert alert-{{ category }} alert-dismissible fade show"
+                                    role="alert">
+
+                                    {{ message }}
+
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="alert"
+                                        aria-label="Close">
+                                    </button>
+
+                                </div>
+
+                            {% endfor %}
+
+                        {% endif %}
+
+                    {% endwith %}
+
+
+                    <form
+                        action="{{ url_for('register') }}"
+                        method="POST"
+                        class="auth-form">
+
+                        <!-- Full Name -->
+                        <div class="auth-field">
+
+                            <label for="full_name">
+                                Full Name
+                            </label>
+
+                            <div class="auth-input-wrapper">
+
+                                <i class="bi bi-person"></i>
+
+                                <input
+                                    type="text"
+                                    id="full_name"
+                                    name="full_name"
+                                    placeholder="Enter your full name"
+                                    autocomplete="name"
+                                    required>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Email -->
+                        <div class="auth-field">
+
+                            <label for="email">
+                                Email Address
+                            </label>
+
+                            <div class="auth-input-wrapper">
+
+                                <i class="bi bi-envelope"></i>
+
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Enter your email"
+                                    autocomplete="email"
+                                    required>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Account Type -->
+                        <div class="auth-field">
+
+                            <label>
+                                Register As
+                            </label>
+
+                            <div class="role-options">
+
+                                <label class="role-card">
+
+                                    <input
+                                        type="radio"
+                                        name="role"
+                                        value="customer"
+                                        checked>
+
+                                    <span class="role-card-content">
+
+                                        <span class="role-icon">
+                                            <i class="bi bi-person"></i>
+                                        </span>
+
+                                        <span>
+                                            <strong>Customer</strong>
+                                            <small>
+                                                Browse products and request services
+                                            </small>
+                                        </span>
+
+                                    </span>
+
+                                </label>
+
+
+                                <label class="role-card">
+
+                                    <input
+                                        type="radio"
+                                        name="role"
+                                        value="entrepreneur">
+
+                                    <span class="role-card-content">
+
+                                        <span class="role-icon">
+                                            <i class="bi bi-shop-window"></i>
+                                        </span>
+
+                                        <span>
+                                            <strong>Entrepreneur</strong>
+                                            <small>
+                                                List your products and skills
+                                            </small>
+                                        </span>
+
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Password -->
+                        <div class="auth-field">
+
+                            <label for="password">
+                                Password
+                            </label>
+
+                            <div class="auth-input-wrapper">
+
+                                <i class="bi bi-lock"></i>
+
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    placeholder="Minimum 6 characters"
+                                    autocomplete="new-password"
+                                    minlength="6"
+                                    required>
+
+                                <button
+                                    type="button"
+                                    class="password-toggle"
+                                    id="togglePassword"
+                                    aria-label="Show or hide password">
+
+                                    <i class="bi bi-eye"></i>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Confirm Password -->
+                        <div class="auth-field">
+
+                            <label for="confirm_password">
+                                Confirm Password
+                            </label>
+
+                            <div class="auth-input-wrapper">
+
+                                <i class="bi bi-shield-lock"></i>
+
+                                <input
+                                    type="password"
+                                    id="confirm_password"
+                                    name="confirm_password"
+                                    placeholder="Enter password again"
+                                    autocomplete="new-password"
+                                    minlength="6"
+                                    required>
+
+                                <button
+                                    type="button"
+                                    class="password-toggle"
+                                    id="toggleConfirmPassword"
+                                    aria-label="Show or hide confirm password">
+
+                                    <i class="bi bi-eye"></i>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Terms -->
+                        <label class="remember-option registration-terms">
+
+                            <input
+                                type="checkbox"
+                                required>
+
+                            <span>
+                                I agree to HunarHub's terms and privacy policy.
+                            </span>
+
+                        </label>
+
+
+                        <!-- Register Button -->
+                        <button
+                            type="submit"
+                            class="auth-submit-btn">
+
+                            Create Account
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </button>
+
+                    </form>
+
+
+                    <div class="auth-divider">
+
+                        <span>Already registered?</span>
+
+                    </div>
+
+
+                    <a
+                        href="{{ url_for('login') }}"
+                        class="auth-secondary-btn">
+
+                        Login to Your Account
+
+                    </a>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- Bootstrap JavaScript -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+    <script>
+        function setupPasswordToggle(buttonId, inputId) {
+            const button = document.getElementById(buttonId);
+            const input = document.getElementById(inputId);
+
+            button.addEventListener("click", function () {
+                const passwordHidden = input.type === "password";
+
+                input.type = passwordHidden ? "text" : "password";
+
+                this.innerHTML = passwordHidden
+                    ? '<i class="bi bi-eye-slash"></i>'
+                    : '<i class="bi bi-eye"></i>';
+            });
+        }
+
+        setupPasswordToggle("togglePassword", "password");
+
+        setupPasswordToggle(
+            "toggleConfirmPassword",
+            "confirm_password"
+        );
+    </script>
+
+</body>
+
+</html>

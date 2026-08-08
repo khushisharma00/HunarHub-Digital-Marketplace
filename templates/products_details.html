@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>{{ product["name"] }} | HunarHub</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dashboard-body">
+
+    <!-- Navbar -->
+
+    <nav class="dashboard-navbar">
+
+        <div class="container">
+
+            <div class="dashboard-nav-content">
+
+                <a
+                    href="{{ url_for('home') }}"
+                    class="dashboard-logo">
+
+                    <span class="logo-icon">
+                        <i class="bi bi-shop"></i>
+                    </span>
+
+                    <span class="logo-text">
+                        Hunar<span>Hub</span>
+                    </span>
+
+                </a>
+
+
+                <div class="dashboard-nav-actions">
+
+                    <a href="{{ url_for('products') }}">
+                        <i class="bi bi-grid"></i>
+                        Products
+                    </a>
+
+                    <a href="{{ url_for('cart') }}">
+                        <i class="bi bi-cart3"></i>
+                        Cart
+                    </a>
+
+                    <a href="{{ url_for('wishlist') }}">
+                        <i class="bi bi-heart"></i>
+                        Wishlist
+                    </a>
+
+                    <a
+                        href="{{ url_for('logout') }}"
+                        class="dashboard-logout">
+
+                        <i class="bi bi-box-arrow-right"></i>
+                        Logout
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Product Details -->
+
+    <main class="product-details-page">
+
+        <div class="container">
+
+            <a
+                href="{{ url_for('products') }}"
+                class="product-back-link">
+
+                <i class="bi bi-arrow-left"></i>
+                Back to Products
+
+            </a>
+
+
+            <section class="product-details-card">
+
+                <!-- Product Image -->
+
+                <div class="product-details-image">
+
+                    <img
+                        src="{{ url_for('static',filename='uploads/' + product['image']) }}"
+                        alt="{{ product['name'] }}">
+
+                </div>
+
+
+                <!-- Product Information -->
+
+                <div class="product-details-content">
+
+                    <span class="product-details-category">
+                        {{ product["category"] }}
+                    </span>
+
+                    <h1>{{ product["name"] }}</h1>
+
+                    <p class="product-details-seller">
+                        By {{ product["seller"] }}
+                    </p>
+
+
+                    <div class="product-details-rating">
+
+                        <span>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+                        </span>
+
+                        <small>4.5 rating</small>
+
+                    </div>
+
+
+                    <h2 class="product-details-price">
+                        ₹{{ "{:,.0f}".format(product["price"]) }}
+                    </h2>
+
+
+                    <p class="product-details-description">
+                        {{ product["description"] }}
+                    </p>
+
+
+                    <div class="product-stock-status">
+
+                        <i class="bi bi-check-circle-fill"></i>
+                        In Stock
+
+                    </div>
+
+
+                    <div class="product-details-actions">
+
+                        <a
+                            href="{{ url_for('add_to_cart', product_id=product['id']) }}"
+                            class="product-details-cart-button">
+
+                            <i class="bi bi-bag-plus"></i>
+                            Add to Cart
+
+                        </a>
+
+
+                        <a
+                            href="{{ url_for('add_to_wishlist', product_id=product['id']) }}"
+                            class="product-details-wishlist-button">
+
+                            <i class="bi bi-heart"></i>
+                            Add to Wishlist
+
+                        </a>
+
+                    </div>
+
+
+                    <div class="product-details-benefits">
+
+                        <p>
+                            <i class="bi bi-truck"></i>
+                            Free delivery
+                        </p>
+
+                        <p>
+                            <i class="bi bi-shield-check"></i>
+                            Secure shopping
+                        </p>
+
+                        <p>
+                            <i class="bi bi-patch-check"></i>
+                            Authentic handmade product
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
