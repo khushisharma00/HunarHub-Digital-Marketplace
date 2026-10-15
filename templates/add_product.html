@@ -21,6 +21,16 @@
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('hunarhub_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-bs-theme', savedTheme);
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                if (savedTheme === 'dark') document.documentElement.classList.add('dark');
+            } catch (e) {}
+        })();
+    </script>
 </head>
 
 <body class="dashboard-body">
@@ -223,6 +233,7 @@
 
     </div>
 
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 
 </html>

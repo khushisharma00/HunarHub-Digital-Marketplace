@@ -7,8 +7,25 @@
   color-scheme: light;
 }
 
-:root.dark {
+:root.dark,
+html.dark {
   color-scheme: dark;
+}
+
+html.dark,
+html.dark body,
+body.dark,
+body.dark #root {
+  background-color: #020617 !important;
+  color: #f8fafc;
+}
+
+html {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+body {
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Glassmorphism helpers */

@@ -26,6 +26,17 @@
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/style.css') }}">
+
+    <script>
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('hunarhub_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-bs-theme', savedTheme);
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                if (savedTheme === 'dark') document.documentElement.classList.add('dark');
+            } catch (e) {}
+        })();
+    </script>
 </head>
 
 
@@ -188,6 +199,12 @@
 
                     </a>
 
+                </li>
+
+                <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                    <button id="themeToggleBtn" type="button" class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;" title="Toggle Dark/Light Mode" aria-label="Toggle dark mode">
+                        <i class="bi bi-moon-stars" id="themeIcon"></i>
+                    </button>
                 </li>
 
             </ul>
@@ -1441,5 +1458,6 @@
 </script>
 
 
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

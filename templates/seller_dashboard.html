@@ -22,6 +22,16 @@
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('hunarhub_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-bs-theme', savedTheme);
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                if (savedTheme === 'dark') document.documentElement.classList.add('dark');
+            } catch (e) {}
+        })();
+    </script>
 </head>
 
 <body class="hh-seller-body">
@@ -847,5 +857,6 @@
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
 </script>
 
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

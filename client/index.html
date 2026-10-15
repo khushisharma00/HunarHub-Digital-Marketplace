@@ -6,6 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HunarHub – Digital Marketplace for Local Micro-Entrepreneurs</title>
     <meta name="description" content="Empowering Indian micro-entrepreneurs: cobblers, potters, tailors, artisans, and small vendors. Book skilled services and buy authentic handmade crafts directly from local talent." />
+    <!-- Pre-render theme initialization -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('hunarhub_theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved === 'dark' || (!saved && prefersDark)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.documentElement.setAttribute('data-bs-theme', 'dark');
+            document.documentElement.style.backgroundColor = '#020617';
+            document.documentElement.style.colorScheme = 'dark';
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.setAttribute('data-theme', 'light');
+            document.documentElement.setAttribute('data-bs-theme', 'light');
+            document.documentElement.style.backgroundColor = '#faf8f5';
+            document.documentElement.style.colorScheme = 'light';
+          }
+        } catch (e) {}
+      })();
+    </script>
     <!-- Google Fonts: Outfit & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

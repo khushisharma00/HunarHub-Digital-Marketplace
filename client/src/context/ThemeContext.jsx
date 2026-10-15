@@ -4,24 +4,51 @@ const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
-    // Check saved local preference
-    const saved = localStorage.getItem('hunarhub_theme');
-    if (saved === 'dark' || saved === 'light') return saved;
-    // Fallback to system preference
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
+    try {
+      const saved = localStorage.getItem('hunarhub_theme');
+      if (saved === 'dark' || saved === 'light') return saved;
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+      }
+    } catch (e) {}
     return 'light';
   });
 
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === 'dark') {
+    const body = document.body;
+    const isDark = theme === 'dark';
+
+    if (isDark) {
       root.classList.add('dark');
+      root.setAttribute('data-theme', 'dark');
+      root.setAttribute('data-bs-theme', 'dark');
+      root.style.colorScheme = 'dark';
+      if (body) {
+        body.classList.add('dark');
+        body.setAttribute('data-theme', 'dark');
+        body.setAttribute('data-bs-theme', 'dark');
+        body.style.colorScheme = 'dark';
+      }
     } else {
       root.classList.remove('dark');
+      root.setAttribute('data-theme', 'light');
+      root.setAttribute('data-bs-theme', 'light');
+      root.style.colorScheme = 'light';
+      if (body) {
+        body.classList.remove('dark');
+        body.setAttribute('data-theme', 'light');
+        body.setAttribute('data-bs-theme', 'light');
+        body.style.colorScheme = 'light';
+      }
     }
-    localStorage.setItem('hunarhub_theme', theme);
+
+    try {
+      localStorage.setItem('hunarhub_theme', theme);
+    } catch (e) {}
+
+    // Dispatch custom event for any listeners
+    window.dispatchEvent(new CustomEvent('hunarhub_theme_change', { detail: { theme } }));
   }, [theme]);
 
   const toggleTheme = () => {
