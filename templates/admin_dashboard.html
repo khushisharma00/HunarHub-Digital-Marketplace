@@ -21,20 +21,64 @@
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .admin-stat-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border-radius: 18px;
+        }
+
+        .admin-stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08) !important;
+        }
+
+        .admin-section {
+            border-radius: 18px;
+        }
+
+        .admin-icon {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            font-size: 26px;
+            margin: 0 auto 15px;
+            background: #f3f7f5;
+        }
+
+        .role-badge {
+            text-transform: capitalize;
+        }
+
+        .table th {
+            white-space: nowrap;
+        }
+    </style>
+
 </head>
 
 <body class="dashboard-body">
 
     <div class="container py-5">
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <!-- Header -->
+
+        <div
+            class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
 
             <div>
-                <h1 class="mb-1">Admin Dashboard</h1>
+
+                <h1 class="mb-1">
+                    Admin Dashboard
+                </h1>
 
                 <p class="text-muted mb-0">
                     Manage HunarHub users, products and orders
                 </p>
+
             </div>
 
             <div class="d-flex gap-2">
@@ -43,17 +87,17 @@
                     href="{{ url_for('home') }}"
                     class="btn btn-outline-dark">
 
-                    <i class="bi bi-house"></i>
+                    <i class="bi bi-house me-1"></i>
                     Home
 
                 </a>
 
                 <a
-                    href="{{ url_for('seller_dashboard') }}"
-                    class="btn btn-success">
+                    href="{{ url_for('logout') }}"
+                    class="btn btn-dark">
 
-                    <i class="bi bi-shop"></i>
-                    Seller Dashboard
+                    <i class="bi bi-box-arrow-right me-1"></i>
+                    Logout
 
                 </a>
 
@@ -66,17 +110,22 @@
 
         <div class="row g-4 mb-5">
 
-            <div class="col-md-4">
+            <!-- Users -->
 
-                <div class="card border-0 shadow-sm text-center h-100">
+            <div class="col-lg-3 col-md-6">
+
+                <div
+                    class="card admin-stat-card border-0 shadow-sm text-center h-100">
 
                     <div class="card-body p-4">
 
-                        <div class="fs-1 text-primary mb-2">
+                        <div class="admin-icon text-primary">
                             <i class="bi bi-people"></i>
                         </div>
 
-                        <h2>{{ total_users }}</h2>
+                        <h2 class="fw-bold">
+                            {{ total_users }}
+                        </h2>
 
                         <p class="text-muted mb-0">
                             Total Users
@@ -89,17 +138,22 @@
             </div>
 
 
-            <div class="col-md-4">
+            <!-- Products -->
 
-                <div class="card border-0 shadow-sm text-center h-100">
+            <div class="col-lg-3 col-md-6">
+
+                <div
+                    class="card admin-stat-card border-0 shadow-sm text-center h-100">
 
                     <div class="card-body p-4">
 
-                        <div class="fs-1 text-success mb-2">
+                        <div class="admin-icon text-success">
                             <i class="bi bi-box-seam"></i>
                         </div>
 
-                        <h2>{{ total_products }}</h2>
+                        <h2 class="fw-bold">
+                            {{ total_products }}
+                        </h2>
 
                         <p class="text-muted mb-0">
                             Total Products
@@ -112,17 +166,22 @@
             </div>
 
 
-            <div class="col-md-4">
+            <!-- Orders -->
 
-                <div class="card border-0 shadow-sm text-center h-100">
+            <div class="col-lg-3 col-md-6">
+
+                <div
+                    class="card admin-stat-card border-0 shadow-sm text-center h-100">
 
                     <div class="card-body p-4">
 
-                        <div class="fs-1 text-warning mb-2">
+                        <div class="admin-icon text-warning">
                             <i class="bi bi-bag-check"></i>
                         </div>
 
-                        <h2>{{ total_orders }}</h2>
+                        <h2 class="fw-bold">
+                            {{ total_orders }}
+                        </h2>
 
                         <p class="text-muted mb-0">
                             Total Orders
@@ -134,31 +193,61 @@
 
             </div>
 
+
+            <!-- Revenue -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div
+                    class="card admin-stat-card border-0 shadow-sm text-center h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="admin-icon text-success">
+                            <i class="bi bi-currency-rupee"></i>
+                        </div>
+
+                        <h2 class="fw-bold">
+                            ₹{{ "%.2f"|format(total_revenue) }}
+                        </h2>
+
+                        <p class="text-muted mb-0">
+                            Total Revenue
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
 
-        <!-- Users Table -->
+        <!-- USERS -->
 
-        <div class="card border-0 shadow-sm">
+        <div class="card admin-section border-0 shadow-sm mb-5">
 
             <div class="card-body p-4">
 
-                <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="mb-4">
 
-                    <div>
-                        <h3 class="mb-1">Registered Users</h3>
+                    <h3 class="mb-1">
+                        <i class="bi bi-people me-2"></i>
+                        Registered Users
+                    </h3>
 
-                        <p class="text-muted mb-0">
-                            All users registered on HunarHub
-                        </p>
-                    </div>
+                    <p class="text-muted mb-0">
+                        Manage HunarHub customer and seller accounts
+                    </p>
 
                 </div>
 
 
                 <div class="table-responsive">
 
-                    <table class="table table-bordered table-hover align-middle">
+                    <table
+                        class="table table-hover align-middle">
 
                         <thead class="table-dark">
 
@@ -166,6 +255,9 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Role</th>
+                                <th>Joined</th>
+                                <th>Action</th>
                             </tr>
 
                         </thead>
@@ -175,9 +267,71 @@
                             {% for user in users %}
 
                             <tr>
-                                <td>{{ user["id"] }}</td>
-                                <td>{{ user["name"] }}</td>
-                                <td>{{ user["email"] }}</td>
+
+                                <td>
+                                    #{{ user["id"] }}
+                                </td>
+
+                                <td class="fw-semibold">
+                                    {{ user["full_name"] }}
+                                </td>
+
+                                <td>
+                                    {{ user["email"] }}
+                                </td>
+
+                                <td>
+
+                                    {% if user["role"] == "admin" %}
+
+                                    <span class="badge bg-dark role-badge">
+                                        Admin
+                                    </span>
+
+                                    {% elif user["role"] == "entrepreneur" %}
+
+                                    <span class="badge bg-success role-badge">
+                                        Entrepreneur
+                                    </span>
+
+                                    {% else %}
+
+                                    <span class="badge bg-primary role-badge">
+                                        Customer
+                                    </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+                                    {{ user["created_at"] }}
+                                </td>
+
+                                <td>
+
+                                    {% if user["role"] != "admin" %}
+
+                                    <a
+                                        href="{{ url_for('admin_delete_user', user_id=user['id']) }}"
+                                        class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Are you sure you want to delete this user?');">
+
+                                        <i class="bi bi-trash"></i>
+                                        Delete
+
+                                    </a>
+
+                                    {% else %}
+
+                                    <span class="text-muted">
+                                        Protected
+                                    </span>
+
+                                    {% endif %}
+
+                                </td>
+
                             </tr>
 
                             {% else %}
@@ -185,7 +339,7 @@
                             <tr>
 
                                 <td
-                                    colspan="3"
+                                    colspan="6"
                                     class="text-center text-muted py-4">
 
                                     No registered users found.
@@ -205,6 +359,299 @@
             </div>
 
         </div>
+
+
+        <!-- PRODUCTS -->
+
+        <div class="card admin-section border-0 shadow-sm mb-5">
+
+            <div class="card-body p-4">
+
+                <div class="mb-4">
+
+                    <h3 class="mb-1">
+
+                        <i class="bi bi-box-seam me-2"></i>
+                        Product Management
+
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        View and manage products listed on HunarHub
+                    </p>
+
+                </div>
+
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="table-dark">
+
+                            <tr>
+                                <th>ID</th>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Seller</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for product in products %}
+
+                            <tr>
+
+                                <td>
+                                    #{{ product["id"] }}
+                                </td>
+
+                                <td class="fw-semibold">
+                                    {{ product["name"] }}
+                                </td>
+
+                                <td>
+                                    {{ product["category"] }}
+                                </td>
+
+                                <td>
+                                    {{ product["seller"] }}
+                                </td>
+
+                                <td class="fw-semibold">
+                                    ₹{{ "%.2f"|format(product["price"]) }}
+                                </td>
+
+                                <td>
+
+                                    <a
+                                        href="{{ url_for('admin_delete_product', product_id=product['id']) }}"
+                                        class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Delete this product?');">
+
+                                        <i class="bi bi-trash"></i>
+                                        Delete
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                            {% else %}
+
+                            <tr>
+
+                                <td
+                                    colspan="6"
+                                    class="text-center text-muted py-4">
+
+                                    No products found.
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ORDERS -->
+
+        <div class="card admin-section border-0 shadow-sm">
+
+            <div class="card-body p-4">
+
+                <div class="mb-4">
+
+                    <h3 class="mb-1">
+
+                        <i class="bi bi-bag-check me-2"></i>
+                        Recent Orders
+
+                    </h3>
+
+                    <p class="text-muted mb-0">
+                        Monitor and update marketplace orders
+                    </p>
+
+                </div>
+
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="table-dark">
+
+                            <tr>
+                                <th>Order</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Payment</th>
+                                <th>Payment Status</th>
+                                <th>Order Status</th>
+                                <th>Update</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for order in recent_orders %}
+
+                            <tr>
+
+                                <td class="fw-semibold">
+                                    #{{ order["id"] }}
+                                </td>
+
+                                <td>
+                                    {{ order["customer_name"] }}
+                                </td>
+
+                                <td class="fw-semibold">
+                                    ₹{{ "%.2f"|format(order["total_amount"]) }}
+                                </td>
+
+                                <td>
+                                    {{ order["payment_method"] or "N/A" }}
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-secondary">
+                                        {{ order["payment_status"] or "Pending" }}
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    {% if order["status"] == "Delivered" %}
+
+                                    <span class="badge bg-success">
+                                        Delivered
+                                    </span>
+
+                                    {% elif order["status"] == "Cancelled" %}
+
+                                    <span class="badge bg-danger">
+                                        Cancelled
+                                    </span>
+
+                                    {% elif order["status"] == "Shipped" %}
+
+                                    <span class="badge bg-primary">
+                                        Shipped
+                                    </span>
+
+                                    {% else %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        {{ order["status"] }}
+                                    </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+
+                                    <form
+                                        method="POST"
+                                        action="{{ url_for('admin_update_order_status', order_id=order['id']) }}"
+                                        class="d-flex gap-2">
+
+                                        <select
+                                            name="status"
+                                            class="form-select form-select-sm">
+
+                                            <option
+                                                value="Placed"
+                                                {% if order["status"] == "Placed" %}selected{% endif %}>
+                                                Placed
+                                            </option>
+
+                                            <option
+                                                value="Confirmed"
+                                                {% if order["status"] == "Confirmed" %}selected{% endif %}>
+                                                Confirmed
+                                            </option>
+
+                                            <option
+                                                value="Shipped"
+                                                {% if order["status"] == "Shipped" %}selected{% endif %}>
+                                                Shipped
+                                            </option>
+
+                                            <option
+                                                value="Delivered"
+                                                {% if order["status"] == "Delivered" %}selected{% endif %}>
+                                                Delivered
+                                            </option>
+
+                                            <option
+                                                value="Cancelled"
+                                                {% if order["status"] == "Cancelled" %}selected{% endif %}>
+                                                Cancelled
+                                            </option>
+
+                                        </select>
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-success">
+
+                                            Update
+
+                                        </button>
+
+                                    </form>
+
+                                </td>
+
+                            </tr>
+
+                            {% else %}
+
+                            <tr>
+
+                                <td
+                                    colspan="7"
+                                    class="text-center text-muted py-4">
+
+                                    No orders found.
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
 
     </div>
 

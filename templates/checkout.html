@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout | HunarHub</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="dashboard-body">
+
+    <div class="container py-5">
+
+        <div class="row g-4">
+
+            <!-- LEFT SIDE -->
+
+            <div class="col-lg-7">
+
+                <div class="card border-0 shadow-sm">
+
+                    <div class="card-body p-4 p-md-5">
+
+                        <div class="mb-4">
+
+                            <span class="text-success fw-bold small">
+                                SECURE CHECKOUT
+                            </span>
+
+                            <h2 class="mt-2 mb-1">
+                                Delivery & Payment
+                            </h2>
+
+                            <p class="text-muted mb-0">
+                                Complete your order details and choose a payment method.
+                            </p>
+
+                        </div>
+
+
+                        <form
+                            method="POST"
+                            action="{{ url_for('place_order') }}">
+
+                            <!-- DELIVERY DETAILS -->
+
+                            <h5 class="mb-3">
+                                Delivery Details
+                            </h5>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Full Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="full_name"
+                                    class="form-control"
+                                    value="{{ session.get('user_name', '') }}"
+                                    required>
+
+                            </div>
+
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Phone Number
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    name="phone"
+                                    class="form-control"
+                                    placeholder="Enter 10-digit phone number"
+                                    required>
+
+                            </div>
+
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Address
+                                </label>
+
+                                <textarea
+                                    name="address"
+                                    class="form-control"
+                                    rows="3"
+                                    placeholder="House number, street, area"
+                                    required></textarea>
+
+                            </div>
+
+
+                            <div class="row">
+
+                                <div class="col-md-4 mb-3">
+
+                                    <label class="form-label">
+                                        City
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="city"
+                                        class="form-control"
+                                        required>
+
+                                </div>
+
+
+                                <div class="col-md-4 mb-3">
+
+                                    <label class="form-label">
+                                        State
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="state"
+                                        class="form-control"
+                                        required>
+
+                                </div>
+
+
+                                <div class="col-md-4 mb-3">
+
+                                    <label class="form-label">
+                                        PIN Code
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        name="pincode"
+                                        class="form-control"
+                                        required>
+
+                                </div>
+
+                            </div>
+
+
+                            <hr class="my-4">
+
+
+                            <!-- PAYMENT METHOD -->
+
+                            <h5 class="mb-3">
+                                Payment Method
+                            </h5>
+
+
+                            <div class="payment-option mb-3">
+
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="payment_method"
+                                    id="cod"
+                                    value="Cash on Delivery"
+                                    checked
+                                    required>
+
+                                <label
+                                    class="form-check-label ms-2"
+                                    for="cod">
+
+                                    <strong>
+                                        Cash on Delivery
+                                    </strong>
+
+                                    <div class="text-muted small">
+                                        Pay when your order is delivered.
+                                    </div>
+
+                                </label>
+
+                            </div>
+
+
+                            <div class="payment-option mb-3">
+
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="payment_method"
+                                    id="upi"
+                                    value="UPI">
+
+                                <label
+                                    class="form-check-label ms-2"
+                                    for="upi">
+
+                                    <strong>
+                                        UPI
+                                    </strong>
+
+                                    <div class="text-muted small">
+                                        UPI payment method selection.
+                                    </div>
+
+                                </label>
+
+                            </div>
+
+                            
+<!-- UPI DETAILS -->
+<div
+    id="upi-details"
+    class="mb-4 p-4 border rounded-3"
+    style="display: none;">
+
+    <h6 class="fw-bold mb-3">
+        Pay via UPI
+    </h6>
+
+    <div class="text-center mb-3">
+
+        <img
+            src="data:image/png;base64,{{ qr_code }}"
+            alt="HunarHub UPI QR Code"
+            style="width: 190px; height: 190px;">
+
+    </div>
+
+    <p class="text-center text-muted mb-2">
+        Scan using Paytm, PhonePe, Google Pay
+        or any UPI app
+    </p>
+
+    <div class="text-center mb-3">
+        <strong>
+            UPI ID: {{ upi_id }}
+        </strong>
+    </div>
+
+   <div class="btn btn-success w-100 mb-3"
+     style="cursor: default;">
+    📱 Scan QR to Pay ₹{{ "{:,.0f}".format(total) }}
+</div>
+
+   <div class="alert alert-warning small mb-0">
+    Scan the QR code using any UPI app such as
+    Paytm, Google Pay or PhonePe.
+    After completing payment, return here and click
+    <strong>Place Order</strong>.
+</div>
+
+</div>
+
+                            <div class="payment-option mb-3">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="payment_method"
+                                    id="card"
+                                    value="Card">
+
+                                <label
+                                    class="form-check-label ms-2"
+                                    for="card">
+                                    <strong>
+                                        Credit / Debit Card
+                                    </strong>
+                                    <div class="text-muted small">
+                                        Pay securely via Visa, Mastercard, or RuPay.
+                                    </div>
+                                </label>
+                            </div>
+
+                            <!-- CARD DETAILS -->
+                            <div id="card-details" class="mb-4 p-4 border rounded-3 bg-light" style="display: none;">
+                                <h6 class="fw-bold mb-3">
+                                    Card Information
+                                </h6>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold small">
+                                        Cardholder Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="cardholder_name"
+                                        id="cardholder_name"
+                                        class="form-control"
+                                        placeholder="Name on card">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold small">
+                                        Card Number
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="card_number"
+                                        id="card_number"
+                                        class="form-control font-monospace"
+                                        placeholder="1234 5678 9012 3456"
+                                        maxlength="19">
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-semibold small">
+                                            Expiry (MM/YY)
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="card_expiry"
+                                            id="card_expiry"
+                                            class="form-control font-monospace"
+                                            placeholder="MM/YY"
+                                            maxlength="5">
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-semibold small">
+                                            CVV
+                                        </label>
+                                        <input
+                                            type="password"
+                                            name="card_cvv"
+                                            id="card_cvv"
+                                            class="form-control font-monospace"
+                                            placeholder="•••"
+                                            maxlength="4">
+                                    </div>
+                                </div>
+
+                                <div class="text-muted small">
+                                    🔒 256-Bit SSL Encrypted • Card details are processed securely.
+                                </div>
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="btn btn-success w-100 py-3">
+
+                                <i class="bi bi-bag-check me-2"></i>
+
+                                Place Order
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT SIDE -->
+
+            <div class="col-lg-5">
+
+                <div class="card border-0 shadow-sm">
+
+                    <div class="card-body p-4">
+
+                        <h3 class="mb-4">
+                            Order Summary
+                        </h3>
+
+                        {% for item in cart_items %}
+
+                            <div
+                                class="d-flex justify-content-between
+                                       align-items-start mb-3">
+
+                                <div>
+
+                                    <strong>
+                                        {{ item["name"] }}
+                                    </strong>
+
+                                    <div class="text-muted small">
+                                        Qty: {{ item["quantity"] }}
+                                    </div>
+
+                                </div>
+
+                                <strong>
+                                    ₹{{ "{:,.0f}".format(
+                                        item["price"] * item["quantity"]
+                                    ) }}
+                                </strong>
+
+                            </div>
+
+                        {% endfor %}
+
+
+                        <hr>
+
+
+                        <div
+                            class="d-flex justify-content-between
+                                   align-items-center mt-3">
+
+                            <h5 class="mb-0">
+                                Total
+                            </h5>
+
+                            <h4 class="mb-0 text-success">
+                                ₹{{ "{:,.0f}".format(total) }}
+                            </h4>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const cod = document.getElementById("cod");
+    const upi = document.getElementById("upi");
+    const card = document.getElementById("card");
+
+    const upiDetails = document.getElementById("upi-details");
+    const cardDetails = document.getElementById("card-details");
+
+
+
+    const cardholderName =
+        document.getElementById("cardholder_name");
+
+    const cardNumber =
+        document.getElementById("card_number");
+
+    const cardExpiry =
+        document.getElementById("card_expiry");
+
+    const cardCvv =
+        document.getElementById("card_cvv");
+
+
+    function updatePaymentFields() {
+
+        upiDetails.style.display = "none";
+        cardDetails.style.display = "none";
+
+    
+        cardholderName.required = false;
+        cardNumber.required = false;
+        cardExpiry.required = false;
+        cardCvv.required = false;
+
+
+        if (upi.checked) {
+
+            upiDetails.style.display = "block";
+        
+
+        }
+
+
+        if (card.checked) {
+
+            cardDetails.style.display = "block";
+
+            cardholderName.required = true;
+            cardNumber.required = true;
+            cardExpiry.required = true;
+            cardCvv.required = true;
+
+        }
+
+    }
+
+
+    cod.addEventListener("change", updatePaymentFields);
+    upi.addEventListener("change", updatePaymentFields);
+    card.addEventListener("change", updatePaymentFields);
+
+    updatePaymentFields();
+
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Details | HunarHub{% endblock %}
+
+{% block content %}
+
+<main class="order-details-page">
+
+    <div class="container">
+
+        <section class="order-heading">
+            <div>
+                <span>Order</span>
+                <h1>Order #{{ order['id'] }}</h1>
+                <p>Placed on {{ order['created_at'] }} — Status: {{ order['status'] }}</p>
+            </div>
+        </section>
+
+        <div class="order-layout">
+            <section class="order-items">
+                {% for item in order['items'] %}
+                    <article class="order-item-card">
+                        <img src="{{ url_for('static', filename='images/' + item['image']) }}" alt="{{ item['name'] }}">
+                        <div>
+                            <h3>{{ item['name'] }}</h3>
+                            <p>Qty: {{ item['quantity'] }}</p>
+                            <strong>₹{{ "{:,.0f}".format(item['price'] * item['quantity']) }}</strong>
+                        </div>
+                    </article>
+                {% endfor %}
+            </section>
+            <aside class="order-summary">
+                <h3>Order Summary</h3>
+                <div><span>Subtotal</span><strong>₹{{ "{:,.0f}".format(order['subtotal']) }}</strong></div>
+                <div><span>Delivery</span><strong>Free</strong></div>
+                <div class="order-total"><span>Total</span><strong>₹{{ "{:,.0f}".format(order['total']) }}</strong></div>
+            </aside>
+        </div>
+
+    </div>
+
+</main>
+
+{% endblock %}

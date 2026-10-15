@@ -3,19 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <title>HunarHub | Digital Marketplace</title>
+    <title>HunarHub | Discover Local Talent</title>
 
     <!-- Google Font -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap -->
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet">
@@ -25,353 +22,372 @@
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-    <!-- Custom CSS -->
+    <!-- HunarHub CSS -->
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
+
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg hunar-navbar">
+<!-- ======================================================
+     NAVBAR
+====================================================== -->
 
-        <div class="container">
+<nav class="navbar navbar-expand-lg hunar-navbar">
 
-            <!-- Website Logo -->
-            <a class="navbar-brand" href="/">
-                <span class="logo-icon">
-                    <i class="bi bi-shop"></i>
-                </span>
+    <div class="container">
 
-                <span class="logo-text">
-                    Hunar<span>Hub</span>
-                </span>
-            </a>
+        <!-- Logo -->
+        <a class="navbar-brand" href="/">
 
-            <!-- Mobile Menu Button -->
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#mainNavbar"
-                aria-controls="mainNavbar"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
+            <span class="logo-icon">
+                <i class="bi bi-shop"></i>
+            </span>
 
-                <span class="navbar-toggler-icon"></span>
+            <span class="logo-text">
+                Hunar<span>Hub</span>
+            </span>
 
-            </button>
-
-            <!-- Navbar Content -->
-            <div
-                class="collapse navbar-collapse"
-                id="mainNavbar">
-
-                <!-- Search Bar -->
-                <form action="{{ url_for('products') }}" method="GET" class="search-form">
-                      <input
-                           type="text"
-                            name="search"
-                            placeholder="Search products, services or entrepreneurs..."
-                            value="{{ request.args.get('search', '') }}">
-
-                       <button type="submit">
-                              <i class="bi bi-search"></i>
-                       </button>
-              </form>
-
-                <!-- Navigation Links -->
-                <ul class="navbar-nav ms-auto align-items-lg-center">
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#products">
-                            Products
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#services">
-                            Services
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#entrepreneurs">
-                            Entrepreneurs
-                        </a>
-                    </li>
-
-                    {% if session.get("user_id") %}
-
-    <li class="nav-item">
-
-        <span class="nav-link">
-            Hi, {{ session.get("user_name") }}
-        </span>
-
-    </li>
-
-    <li class="nav-item">
-
-        <a class="register-btn" href="{{ url_for('logout') }}">
-            Logout
         </a>
 
+
+        <!-- Mobile Toggle -->
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+
+
+            <!-- Search -->
+            <form
+                action="{{ url_for('products') }}"
+                method="GET"
+                class="navbar-search">
+
+                <i class="bi bi-search"></i>
+
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search handmade products..."
+                    value="{{ request.args.get('search', '') }}">
+
+                <button type="submit">
+                    Search
+                </button>
+
+            </form>
+
+
+            <!-- Links -->
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="{{ url_for('products') }}">
+                        Marketplace
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#categories">
+                        Categories
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#entrepreneurs">
+                        Entrepreneurs
+                    </a>
+                </li>
+
+
+                {% if session.get("user_id") %}
+
+                   {% if session.get("user_role") == "entrepreneur" %}
+
+    <li class="nav-item">
+        <a
+            class="nav-link"
+            href="{{ url_for('seller_dashboard') }}">
+
+            <i class="bi bi-grid me-1"></i>
+            Dashboard
+
+        </a>
     </li>
 
 {% else %}
 
     <li class="nav-item">
-
         <a
-            class="nav-link login-link"
-            href="{{ url_for('login') }}">
+            class="nav-link"
+            href="{{ url_for('dashboard') }}">
 
-            Login
+            <i class="bi bi-grid me-1"></i>
+            Dashboard
 
         </a>
-
-    </li>
-
-    <li class="nav-item">
-
-        <a
-            class="register-btn"
-            href="{{ url_for('register') }}">
-
-            Register
-
-        </a>
-
     </li>
 
 {% endif %}
-                      
-
-                    <li class="nav-item">
-                        <a
-                            class="cart-link"
-                            href="#"
-                            aria-label="Shopping cart">
-
-                            <i class="bi bi-cart3"></i>
-
-                            <span class="cart-count">
-                                0
-                            </span>
 
                         </a>
                     </li>
 
-                </ul>
+                    <li class="nav-item">
+                        <a
+                            class="register-btn"
+                            href="{{ url_for('logout') }}">
 
-            </div>
+                            Logout
+
+                        </a>
+                    </li>
+
+                {% else %}
+
+                    <li class="nav-item">
+                        <a
+                            class="nav-link login-link"
+                            href="{{ url_for('login') }}">
+                            Login
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a
+                            class="register-btn"
+                            href="{{ url_for('register') }}">
+                            Join HunarHub
+                        </a>
+                    </li>
+
+                {% endif %}
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="cart-link"
+                        href="{{ url_for('cart') }}"
+                        aria-label="Shopping cart">
+
+                        <i class="bi bi-bag"></i>
+
+                    </a>
+
+                </li>
+
+            </ul>
 
         </div>
 
-    </nav>
+    </div>
 
-   <!-- Hero Section -->
+</nav>
+
+
+
 <main>
 
-    <section class="hero-section">
 
-        <div class="container">
+<!-- ======================================================
+     HERO
+====================================================== -->
 
-            <div class="row align-items-center g-5">
+<section class="hh-hero">
 
-                <!-- Browse Categories Section -->
-<section class="categories-section" id="categories">
+    <div class="hh-hero-glow hh-glow-one"></div>
+    <div class="hh-hero-glow hh-glow-two"></div>
 
     <div class="container">
 
-        <div class="section-heading">
-
-            <div>
-                <span class="section-label">
-                    Explore HunarHub
-                </span>
-
-                <h2>Browse Popular Categories</h2>
-
-                <p>
-                    Discover handmade products created by skilled
-                    local entrepreneurs.
-                </p>
-            </div>
-
-            <a href="#" class="view-all-link">
-                View All Categories
-                <i class="bi bi-arrow-right"></i>
-            </a>
-
-        </div>
+        <div class="row align-items-center g-5">
 
 
-        <div class="row g-4">
+            <!-- HERO TEXT -->
 
-            <!-- Pottery -->
-            <div class="col-12 col-sm-6 col-lg-4">
+            <div class="col-lg-6">
 
-                <a href="#" class="category-card">
+                <div class="hh-hero-content">
 
-                    <img
-                        src="{{ url_for('static', filename='images/pottery.jpg') }}"
-                        alt="Handmade pottery products">
+                    <div class="hh-eyebrow">
 
-                    <div class="category-overlay"></div>
+                        <span class="hh-eyebrow-icon">
+                            <i class="bi bi-stars"></i>
+                        </span>
 
-                    <div class="category-content">
+                        Marketplace for India's Local Talent
 
-                        <div class="category-icon">
-                            <i class="bi bi-cup-hot"></i>
-                        </div>
+                    </div>
+
+
+                    <h1>
+                        Discover talent.
+                        <span>
+                            Shop with purpose.
+                        </span>
+                    </h1>
+
+
+                    <p class="hh-hero-description">
+
+                        Discover meaningful handmade products from
+                        skilled local entrepreneurs and support the
+                        creativity behind every craft.
+
+                    </p>
+
+
+                    <div class="hh-hero-actions">
+
+                        <a
+                            href="{{ url_for('products') }}"
+                            class="hh-primary-button">
+
+                            Explore Marketplace
+
+                            <i class="bi bi-arrow-up-right"></i>
+
+                        </a>
+
+
+                        {% if not session.get("user_id") %}
+
+                        <a
+                            href="{{ url_for('register') }}"
+                            class="hh-secondary-button">
+
+                            Start Selling
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+                        {% else %}
+
+                        <a
+                            href="{{ url_for('dashboard') }}"
+                            class="hh-secondary-button">
+
+                            Open Dashboard
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Trust -->
+
+                    <div class="hh-trust-row">
 
                         <div>
-                            <h3>Pottery</h3>
-                            <p>Hand-painted pots and ceramics</p>
+                            <strong>100%</strong>
+                            <span>Local Talent</span>
+                        </div>
+
+                        <div class="hh-trust-divider"></div>
+
+                        <div>
+                            <strong>Unique</strong>
+                            <span>Handmade Products</span>
+                        </div>
+
+                        <div class="hh-trust-divider"></div>
+
+                        <div>
+                            <strong>Direct</strong>
+                            <span>Seller Support</span>
                         </div>
 
                     </div>
 
-                    <span class="category-arrow">
-                        <i class="bi bi-arrow-up-right"></i>
-                    </span>
-
-                </a>
+                </div>
 
             </div>
 
 
-            <!-- Textiles -->
-            <div class="col-12 col-sm-6 col-lg-4">
 
-                <a href="#" class="category-card">
+            <!-- HERO VISUAL -->
 
-                    <img
-                        src="{{ url_for('static', filename='images/textiles.jpg') }}"
-                        alt="Traditional handmade textiles">
+            <div class="col-lg-6">
 
-                    <div class="category-overlay"></div>
+                <div class="hh-hero-visual">
 
-                    <div class="category-content">
 
-                        <div class="category-icon">
-                            <i class="bi bi-grid-3x3-gap"></i>
+                    <div class="hh-image-frame">
+
+                        <img
+                            src="{{ url_for('static', filename='images/hero.jpg') }}"
+                            alt="Local artisan displaying handmade products">
+
+                    </div>
+
+
+                    <!-- Floating Card 1 -->
+
+                    <div class="hh-floating-card hh-floating-top">
+
+                        <div class="hh-floating-icon">
+                            <i class="bi bi-patch-check-fill"></i>
                         </div>
 
                         <div>
-                            <h3>Textiles</h3>
-                            <p>Handloom fabrics and clothing</p>
+                            <strong>Local Entrepreneurs</strong>
+                            <span>Discover authentic creators</span>
                         </div>
 
                     </div>
 
-                    <span class="category-arrow">
-                        <i class="bi bi-arrow-up-right"></i>
-                    </span>
 
-                </a>
+                    <!-- Floating Card 2 -->
 
-            </div>
+                    <div class="hh-floating-card hh-floating-bottom">
 
+                        <div class="hh-mini-avatars">
 
-            <!-- Jewellery -->
-            <div class="col-12 col-sm-6 col-lg-4">
+                            <span>
+                                <i class="bi bi-person-fill"></i>
+                            </span>
 
-                <a href="#" class="category-card">
+                            <span>
+                                <i class="bi bi-person-fill"></i>
+                            </span>
 
-                    <img
-                        src="{{ url_for('static', filename='images/jewellery.jpg') }}"
-                        alt="Traditional handmade jewellery">
+                            <span>
+                                <i class="bi bi-person-fill"></i>
+                            </span>
 
-                    <div class="category-overlay"></div>
-
-                    <div class="category-content">
-
-                        <div class="category-icon">
-                            <i class="bi bi-gem"></i>
                         </div>
 
                         <div>
-                            <h3>Jewellery</h3>
-                            <p>Unique handmade ornaments</p>
+                            <strong>Support Local</strong>
+                            <span>Empower independent talent</span>
                         </div>
 
                     </div>
 
-                    <span class="category-arrow">
-                        <i class="bi bi-arrow-up-right"></i>
-                    </span>
 
-                </a>
+                    <div class="hh-decoration-dot hh-dot-one"></div>
+                    <div class="hh-decoration-dot hh-dot-two"></div>
 
-            </div>
-
-
-            <!-- Paintings -->
-            <div class="col-12 col-sm-6 col-lg-6">
-
-                <a href="#" class="category-card category-card-wide">
-
-                    <img
-                        src="{{ url_for('static', filename='images/painting.jpg') }}"
-                        alt="Local artist creating a painting">
-
-                    <div class="category-overlay"></div>
-
-                    <div class="category-content">
-
-                        <div class="category-icon">
-                            <i class="bi bi-palette"></i>
-                        </div>
-
-                        <div>
-                            <h3>Paintings</h3>
-                            <p>Original artwork by local artists</p>
-                        </div>
-
-                    </div>
-
-                    <span class="category-arrow">
-                        <i class="bi bi-arrow-up-right"></i>
-                    </span>
-
-                </a>
-
-            </div>
-
-
-            <!-- Woodcraft -->
-            <div class="col-12 col-sm-6 col-lg-6">
-
-                <a href="#" class="category-card category-card-wide">
-
-                    <img
-                        src="{{ url_for('static', filename='images/woodcraft.jpg') }}"
-                        alt="Hand-carved wooden craft products">
-
-                    <div class="category-overlay"></div>
-
-                    <div class="category-content">
-
-                        <div class="category-icon">
-                            <i class="bi bi-tree"></i>
-                        </div>
-
-                        <div>
-                            <h3>Woodcraft</h3>
-                            <p>Decorative handmade wooden products</p>
-                        </div>
-
-                    </div>
-
-                    <span class="category-arrow">
-                        <i class="bi bi-arrow-up-right"></i>
-                    </span>
-
-                </a>
+                </div>
 
             </div>
 
@@ -380,86 +396,405 @@
     </div>
 
 </section>
-<!-- Featured Products Section -->
-<!-- Featured Products Section -->
-<section class="products-section" id="products">
+
+
+
+<!-- ======================================================
+     TRUST STRIP
+====================================================== -->
+
+<section class="hh-trust-strip">
 
     <div class="container">
 
-        <div class="section-heading">
+        <div class="hh-trust-strip-grid">
+
             <div>
-                <span class="section-label">Handpicked for You</span>
-                <h2>Featured Products</h2>
-                <p>Explore unique handmade products created by talented local entrepreneurs.</p>
+                <i class="bi bi-patch-check"></i>
+
+                <span>
+                    Trusted Marketplace
+                </span>
             </div>
 
-            <a href="{{ url_for('products') }}" class="view-all-link">
-                View All Products
-                <i class="bi bi-arrow-right"></i>
-            </a>
+            <div>
+                <i class="bi bi-gem"></i>
+
+                <span>
+                    Authentic Handmade Products
+                </span>
+            </div>
+
+            <div>
+                <i class="bi bi-people"></i>
+
+                <span>
+                    Local Entrepreneurs
+                </span>
+            </div>
+
+            <div>
+                <i class="bi bi-bag-check"></i>
+
+                <span>
+                    Simple Shopping
+                </span>
+            </div>
+
         </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ======================================================
+     CATEGORIES
+====================================================== -->
+
+<section class="hh-section hh-categories" id="categories">
+
+    <div class="container">
+
+
+        <div class="hh-section-heading">
+
+            <div>
+
+                <span class="hh-section-label">
+                    Explore the Marketplace
+                </span>
+
+                <h2>
+                    Made with skill.
+                    <span>Created with heart.</span>
+                </h2>
+
+                <p>
+                    Explore crafts and products made by talented
+                    entrepreneurs from different creative communities.
+                </p>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('products') }}"
+                class="hh-text-link">
+
+                Browse everything
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+
+
+        <div class="hh-category-grid">
+
+
+            <!-- Pottery -->
+
+            <a
+                href="{{ url_for('products') }}?search=pottery"
+                class="hh-category-card hh-category-large">
+
+                <img
+                    src="{{ url_for('static', filename='images/pottery.jpg') }}"
+                    alt="Handmade pottery">
+
+                <div class="hh-category-gradient"></div>
+
+                <div class="hh-category-content">
+
+                    <span>
+                        <i class="bi bi-cup-hot"></i>
+                    </span>
+
+                    <div>
+                        <h3>Pottery</h3>
+                        <p>Timeless pieces shaped by hand.</p>
+                    </div>
+
+                </div>
+
+                <div class="hh-category-arrow">
+                    <i class="bi bi-arrow-up-right"></i>
+                </div>
+
+            </a>
+
+
+
+            <!-- Textiles -->
+
+            <a
+                href="{{ url_for('products') }}?search=textiles"
+                class="hh-category-card">
+
+                <img
+                    src="{{ url_for('static', filename='images/textiles.jpg') }}"
+                    alt="Traditional textiles">
+
+                <div class="hh-category-gradient"></div>
+
+                <div class="hh-category-content">
+
+                    <span>
+                        <i class="bi bi-grid-3x3-gap"></i>
+                    </span>
+
+                    <div>
+                        <h3>Textiles</h3>
+                        <p>Traditional craft, modern stories.</p>
+                    </div>
+
+                </div>
+
+                <div class="hh-category-arrow">
+                    <i class="bi bi-arrow-up-right"></i>
+                </div>
+
+            </a>
+
+
+
+            <!-- Jewellery -->
+
+            <a
+                href="{{ url_for('products') }}?search=jewellery"
+                class="hh-category-card">
+
+                <img
+                    src="{{ url_for('static', filename='images/jewellery.jpg') }}"
+                    alt="Handmade jewellery">
+
+                <div class="hh-category-gradient"></div>
+
+                <div class="hh-category-content">
+
+                    <span>
+                        <i class="bi bi-gem"></i>
+                    </span>
+
+                    <div>
+                        <h3>Jewellery</h3>
+                        <p>Crafted details worth keeping.</p>
+                    </div>
+
+                </div>
+
+                <div class="hh-category-arrow">
+                    <i class="bi bi-arrow-up-right"></i>
+                </div>
+
+            </a>
+
+
+
+            <!-- Paintings -->
+
+            <a
+                href="{{ url_for('products') }}?search=painting"
+                class="hh-category-card">
+
+                <img
+                    src="{{ url_for('static', filename='images/painting.jpg') }}"
+                    alt="Local artwork">
+
+                <div class="hh-category-gradient"></div>
+
+                <div class="hh-category-content">
+
+                    <span>
+                        <i class="bi bi-palette"></i>
+                    </span>
+
+                    <div>
+                        <h3>Art</h3>
+                        <p>Original work from local artists.</p>
+                    </div>
+
+                </div>
+
+                <div class="hh-category-arrow">
+                    <i class="bi bi-arrow-up-right"></i>
+                </div>
+
+            </a>
+
+
+
+            <!-- Woodcraft -->
+
+            <a
+                href="{{ url_for('products') }}?search=woodcraft"
+                class="hh-category-card">
+
+                <img
+                    src="{{ url_for('static', filename='images/woodcraft.jpg') }}"
+                    alt="Woodcraft">
+
+                <div class="hh-category-gradient"></div>
+
+                <div class="hh-category-content">
+
+                    <span>
+                        <i class="bi bi-tree"></i>
+                    </span>
+
+                    <div>
+                        <h3>Woodcraft</h3>
+                        <p>Made slowly. Built to last.</p>
+                    </div>
+
+                </div>
+
+                <div class="hh-category-arrow">
+                    <i class="bi bi-arrow-up-right"></i>
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ======================================================
+     FEATURED PRODUCTS
+====================================================== -->
+
+<section class="hh-section hh-products-section" id="products">
+
+    <div class="container">
+
+
+        <div class="hh-section-heading">
+
+            <div>
+
+                <span class="hh-section-label">
+                    Curated for You
+                </span>
+
+                <h2>
+                    Discover something
+                    <span>truly original.</span>
+                </h2>
+
+                <p>
+                    Explore products made with creativity,
+                    tradition and individual craftsmanship.
+                </p>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('products') }}"
+                class="hh-text-link">
+
+                View all products
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+
 
         <div class="row g-4">
 
+
             {% for product in products %}
 
-            <div class="col-md-4">
+            <div class="col-sm-6 col-lg-4">
 
-                <article class="product-card">
-                   </a>
-                        <img
-                            src="{{ url_for('static', filename='images/' + product.image) }}"
-                            class="img-fluid"
-                            alt="{{ product.name }}">
+                <article class="hh-product-card">
 
-                    </a>
 
-                    <div class="product-info">
+                    <!-- Image -->
 
-                        <span class="product-category">
+                    <div class="hh-product-image">
+
+                        <a
+                            href="{{ url_for('product_details', product_id=product.id) }}">
+
+                            <img
+                                src="{{ url_for('static', filename='images/' + product.image) }}"
+                                alt="{{ product.name }}">
+
+                        </a>
+
+
+                        <span class="hh-product-tag">
                             {{ product.category }}
                         </span>
 
-                        <h3>
-                        <a href="{{ url_for('product_details', product_id=product.id) }}"
-                            class="product-title">
-                             {{ product.name }}
-                             </a>
-                     </h3>
 
-                            
+                        <a
+                            href="{{ url_for('add_to_wishlist', product_id=product.id) }}"
+                            class="hh-heart-button"
+                            aria-label="Add to wishlist">
 
-                        <div class="product-seller">
+                            <i class="bi bi-heart"></i>
 
-                            By {{ product.seller }}
+                        </a>
+
+                    </div>
+
+
+
+                    <!-- Content -->
+
+                    <div class="hh-product-content">
+
+
+                        <div class="hh-product-seller">
+
+                            <i class="bi bi-patch-check-fill"></i>
+
+                            {{ product.seller }}
 
                         </div>
 
-                        <div class="product-bottom">
 
-                            <div class="product-price">
+                        <h3>
 
+                            <a
+                                href="{{ url_for('product_details', product_id=product.id) }}">
+
+                                {{ product.name }}
+
+                            </a>
+
+                        </h3>
+
+
+                        <div class="hh-product-footer">
+
+                            <strong>
                                 ₹{{ product.price }}
+                            </strong>
 
-                            </div>
 
-                            <div>
+                            <a
+                                href="{{ url_for('add_to_cart', product_id=product.id) }}"
+                                class="hh-add-cart">
 
-                                <a href="{{ url_for('add_to_wishlist', product_id=product.id) }}"
-                                   class="wishlist-btn">
+                                <i class="bi bi-bag-plus"></i>
 
-                                    <i class="bi bi-heart"></i>
+                                Add
 
-                                </a>
-
-                                <a href="{{ url_for('add_to_cart', product_id=product.id) }}"
-                                   class="add-cart-btn">
-
-                                    <i class="bi bi-bag-plus"></i>
-
-                                </a>
-
-                            </div>
+                            </a>
 
                         </div>
 
@@ -471,139 +806,146 @@
 
             {% endfor %}
 
+
         </div>
 
     </div>
 
 </section>
 
-<!-- Why Choose HunarHub Section -->
-<section class="why-section">
+
+
+<!-- ======================================================
+     WHY HUNARHUB
+====================================================== -->
+
+<section class="hh-section hh-why">
 
     <div class="container">
 
-        <div class="why-wrapper">
+        <div class="hh-why-panel">
 
-            <!-- Left Content -->
-            <div class="why-intro">
 
-                <span class="section-label">
-                    Why HunarHub?
+            <div class="hh-why-intro">
+
+                <span class="hh-section-label">
+                    Why HunarHub
                 </span>
 
                 <h2>
-                    A trusted platform for
-                    <span>local skills and creativity.</span>
+                    More than a marketplace.
+                    <span>
+                        A place for talent to grow.
+                    </span>
                 </h2>
 
                 <p>
-                    HunarHub connects customers with local
-                    micro-entrepreneurs, allowing them to discover
-                    handmade products and request trusted services
-                    through one digital marketplace.
+                    HunarHub gives independent entrepreneurs a
+                    digital space to showcase their work while
+                    helping customers discover products with
+                    personality, purpose and a human story.
                 </p>
 
-                <a href="#entrepreneurs" class="why-action-btn">
-                    Explore Entrepreneurs
+
+                <a
+                    href="{{ url_for('products') }}"
+                    class="hh-primary-button">
+
+                    Start Exploring
+
                     <i class="bi bi-arrow-right"></i>
+
                 </a>
 
             </div>
 
 
-            <!-- Feature Cards -->
-            <div class="why-features">
 
-                <!-- Feature 1 -->
-                <article class="why-card">
+            <div class="hh-feature-grid">
 
-                    <div class="why-icon">
 
-                        <i class="bi bi-patch-check"></i>
+                <article class="hh-feature-card">
 
-                    </div>
+                    <span>
+                        01
+                    </span>
 
-                    <div>
+                    <i class="bi bi-shop-window"></i>
 
-                        <h3>Verified Entrepreneurs</h3>
+                    <h3>
+                        Discover Local
+                    </h3>
 
-                        <p>
-                            Entrepreneur profiles can be reviewed
-                            and verified by the platform admin.
-                        </p>
-
-                    </div>
+                    <p>
+                        Find products created by independent
+                        entrepreneurs and artisans.
+                    </p>
 
                 </article>
 
 
-                <!-- Feature 2 -->
-                <article class="why-card">
 
-                    <div class="why-icon">
+                <article class="hh-feature-card">
 
-                        <i class="bi bi-shop-window"></i>
+                    <span>
+                        02
+                    </span>
 
-                    </div>
+                    <i class="bi bi-stars"></i>
 
-                    <div>
+                    <h3>
+                        Unique Products
+                    </h3>
 
-                        <h3>Products and Services</h3>
-
-                        <p>
-                            Browse handmade products and discover
-                            useful local services in one place.
-                        </p>
-
-                    </div>
+                    <p>
+                        Shop pieces with personality instead
+                        of ordinary mass-produced products.
+                    </p>
 
                 </article>
 
 
-                <!-- Feature 3 -->
-                <article class="why-card">
 
-                    <div class="why-icon">
+                <article class="hh-feature-card">
 
-                        <i class="bi bi-star"></i>
+                    <span>
+                        03
+                    </span>
 
-                    </div>
+                    <i class="bi bi-people"></i>
 
-                    <div>
+                    <h3>
+                        Empower Talent
+                    </h3>
 
-                        <h3>Reviews and Ratings</h3>
-
-                        <p>
-                            Customers can share feedback and ratings
-                            after interacting with entrepreneurs.
-                        </p>
-
-                    </div>
+                    <p>
+                        Every purchase helps independent
+                        entrepreneurs grow their businesses.
+                    </p>
 
                 </article>
 
 
-                <!-- Feature 4 -->
-                <article class="why-card">
 
-                    <div class="why-icon">
+                <article class="hh-feature-card">
 
-                        <i class="bi bi-people"></i>
+                    <span>
+                        04
+                    </span>
 
-                    </div>
+                    <i class="bi bi-shield-check"></i>
 
-                    <div>
+                    <h3>
+                        Trusted Platform
+                    </h3>
 
-                        <h3>Support Local Talent</h3>
-
-                        <p>
-                            Help skilled local entrepreneurs reach
-                            more customers and grow their businesses.
-                        </p>
-
-                    </div>
+                    <p>
+                        Discover sellers and manage your
+                        marketplace activity in one place.
+                    </p>
 
                 </article>
+
 
             </div>
 
@@ -613,262 +955,268 @@
 
 </section>
 
-<!-- Featured Entrepreneurs Section -->
-<section class="entrepreneurs-section" id="entrepreneurs">
+
+
+<!-- ======================================================
+     ENTREPRENEURS
+====================================================== -->
+
+<section
+    class="hh-section hh-entrepreneurs"
+    id="entrepreneurs">
 
     <div class="container">
 
-        <div class="section-heading">
+
+        <div class="hh-section-heading">
 
             <div>
-                <span class="section-label">
-                    Local Talent
+
+                <span class="hh-section-label">
+                    Behind the Craft
                 </span>
 
-                <h2>Meet Our Entrepreneurs</h2>
+                <h2>
+                    Meet the people
+                    <span>behind the products.</span>
+                </h2>
 
                 <p>
-                    Discover skilled local entrepreneurs and explore
-                    the products and services they offer.
+                    Every product starts with a skill,
+                    an idea and an entrepreneur.
                 </p>
+
             </div>
 
-            <a href="#" class="view-all-link">
-                View All Entrepreneurs
-                <i class="bi bi-arrow-right"></i>
-            </a>
-
         </div>
+
 
 
         <div class="row g-4">
 
+
             <!-- Entrepreneur 1 -->
-            <div class="col-12 col-sm-6 col-lg-3">
 
-                <article class="entrepreneur-card">
+            <div class="col-sm-6 col-lg-3">
 
-                    <div class="entrepreneur-image">
+                <article class="hh-creator-card">
+
+                    <div class="hh-creator-image">
 
                         <img
                             src="{{ url_for('static', filename='images/seller.jpg') }}"
-                            alt="Meera Sharma pottery entrepreneur">
+                            alt="Local entrepreneur">
 
-                        <span class="verified-badge">
+                        <span>
                             <i class="bi bi-patch-check-fill"></i>
                             Verified
                         </span>
 
                     </div>
 
-                    <div class="entrepreneur-info">
 
-                        <span class="entrepreneur-category">
+                    <div class="hh-creator-content">
+
+                        <small>
                             Pottery Artist
-                        </span>
+                        </small>
 
-                        <h3>Meera Sharma</h3>
+                        <h3>
+                            Meera Sharma
+                        </h3>
 
-                        <div class="entrepreneur-location">
+                        <p>
                             <i class="bi bi-geo-alt"></i>
                             Jaipur, Rajasthan
-                        </div>
+                        </p>
 
-                        <div class="entrepreneur-meta">
+                        <div class="hh-creator-meta">
 
-                            <div>
+                            <span>
                                 <i class="bi bi-star-fill"></i>
-                                <span>4.9 Rating</span>
-                            </div>
+                                4.9
+                            </span>
 
-                            <div>
-                                <i class="bi bi-box-seam"></i>
-                                <span>38 Products</span>
-                            </div>
+                            <span>
+                                38 Products
+                            </span>
 
                         </div>
-
-                        <a href="#" class="profile-btn">
-                            View Profile
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
 
                     </div>
 
                 </article>
 
             </div>
+
 
 
             <!-- Entrepreneur 2 -->
-            <div class="col-12 col-sm-6 col-lg-3">
 
-                <article class="entrepreneur-card">
+            <div class="col-sm-6 col-lg-3">
 
-                    <div class="entrepreneur-image">
+                <article class="hh-creator-card">
+
+                    <div class="hh-creator-image">
 
                         <img
                             src="{{ url_for('static', filename='images/seller.jpg') }}"
-                            alt="Asha Verma textile entrepreneur">
+                            alt="Local entrepreneur">
 
-                        <span class="verified-badge">
+                        <span>
                             <i class="bi bi-patch-check-fill"></i>
                             Verified
                         </span>
 
                     </div>
 
-                    <div class="entrepreneur-info">
 
-                        <span class="entrepreneur-category">
+                    <div class="hh-creator-content">
+
+                        <small>
                             Handloom Specialist
-                        </span>
+                        </small>
 
-                        <h3>Asha Verma</h3>
+                        <h3>
+                            Asha Verma
+                        </h3>
 
-                        <div class="entrepreneur-location">
+                        <p>
                             <i class="bi bi-geo-alt"></i>
-                            Varanasi, Uttar Pradesh
-                        </div>
+                            Varanasi, UP
+                        </p>
 
-                        <div class="entrepreneur-meta">
+                        <div class="hh-creator-meta">
 
-                            <div>
+                            <span>
                                 <i class="bi bi-star-fill"></i>
-                                <span>4.8 Rating</span>
-                            </div>
+                                4.8
+                            </span>
 
-                            <div>
-                                <i class="bi bi-box-seam"></i>
-                                <span>26 Products</span>
-                            </div>
+                            <span>
+                                26 Products
+                            </span>
 
                         </div>
-
-                        <a href="#" class="profile-btn">
-                            View Profile
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
 
                     </div>
 
                 </article>
 
             </div>
+
 
 
             <!-- Entrepreneur 3 -->
-            <div class="col-12 col-sm-6 col-lg-3">
 
-                <article class="entrepreneur-card">
+            <div class="col-sm-6 col-lg-3">
 
-                    <div class="entrepreneur-image">
+                <article class="hh-creator-card">
+
+                    <div class="hh-creator-image">
 
                         <img
                             src="{{ url_for('static', filename='images/seller.jpg') }}"
-                            alt="Noor Khan jewellery entrepreneur">
+                            alt="Local entrepreneur">
 
-                        <span class="verified-badge">
+                        <span>
                             <i class="bi bi-patch-check-fill"></i>
                             Verified
                         </span>
 
                     </div>
 
-                    <div class="entrepreneur-info">
 
-                        <span class="entrepreneur-category">
+                    <div class="hh-creator-content">
+
+                        <small>
                             Jewellery Designer
-                        </span>
+                        </small>
 
-                        <h3>Noor Khan</h3>
+                        <h3>
+                            Noor Khan
+                        </h3>
 
-                        <div class="entrepreneur-location">
+                        <p>
                             <i class="bi bi-geo-alt"></i>
-                            Lucknow, Uttar Pradesh
-                        </div>
+                            Lucknow, UP
+                        </p>
 
-                        <div class="entrepreneur-meta">
+                        <div class="hh-creator-meta">
 
-                            <div>
+                            <span>
                                 <i class="bi bi-star-fill"></i>
-                                <span>4.7 Rating</span>
-                            </div>
+                                4.7
+                            </span>
 
-                            <div>
-                                <i class="bi bi-box-seam"></i>
-                                <span>31 Products</span>
-                            </div>
+                            <span>
+                                31 Products
+                            </span>
 
                         </div>
-
-                        <a href="#" class="profile-btn">
-                            View Profile
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
 
                     </div>
 
                 </article>
 
             </div>
+
 
 
             <!-- Entrepreneur 4 -->
-            <div class="col-12 col-sm-6 col-lg-3">
 
-                <article class="entrepreneur-card">
+            <div class="col-sm-6 col-lg-3">
 
-                    <div class="entrepreneur-image">
+                <article class="hh-creator-card">
+
+                    <div class="hh-creator-image">
 
                         <img
                             src="{{ url_for('static', filename='images/seller.jpg') }}"
-                            alt="Arjun Singh woodcraft entrepreneur">
+                            alt="Local entrepreneur">
 
-                        <span class="verified-badge">
+                        <span>
                             <i class="bi bi-patch-check-fill"></i>
                             Verified
                         </span>
 
                     </div>
 
-                    <div class="entrepreneur-info">
 
-                        <span class="entrepreneur-category">
+                    <div class="hh-creator-content">
+
+                        <small>
                             Woodcraft Artisan
-                        </span>
+                        </small>
 
-                        <h3>Arjun Singh</h3>
+                        <h3>
+                            Arjun Singh
+                        </h3>
 
-                        <div class="entrepreneur-location">
+                        <p>
                             <i class="bi bi-geo-alt"></i>
-                            Saharanpur, Uttar Pradesh
-                        </div>
+                            Saharanpur, UP
+                        </p>
 
-                        <div class="entrepreneur-meta">
+                        <div class="hh-creator-meta">
 
-                            <div>
+                            <span>
                                 <i class="bi bi-star-fill"></i>
-                                <span>4.8 Rating</span>
-                            </div>
+                                4.8
+                            </span>
 
-                            <div>
-                                <i class="bi bi-box-seam"></i>
-                                <span>22 Products</span>
-                            </div>
+                            <span>
+                                22 Products
+                            </span>
 
                         </div>
-
-                        <a href="#" class="profile-btn">
-                            View Profile
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
 
                     </div>
 
                 </article>
 
             </div>
+
 
         </div>
 
@@ -876,111 +1224,222 @@
 
 </section>
 
-                <!-- Hero Text -->
-                <div class="col-lg-6">
 
-                    <div class="hero-content">
 
-                        <span class="hero-label">
-                            <i class="bi bi-stars"></i>
-                            Digital Marketplace for Local Talent
-                        </span>
+<!-- ======================================================
+     SELLER CTA
+====================================================== -->
 
-                        <h1>
-                            Discover Skills.
-                            <span>Support Local Dreams.</span>
-                        </h1>
+<section class="hh-seller-cta">
 
-                        <p>
-                            Explore unique handmade products and trusted
-                            services offered by skilled local entrepreneurs.
-                        </p>
+    <div class="container">
 
-                        <div class="hero-buttons">
+        <div class="hh-cta-panel">
 
-                            <a href="#products" class="primary-hero-btn">
-                                Explore Products
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
 
-                            <a href="#services" class="secondary-hero-btn">
-                                Find Services
-                            </a>
+            <div>
 
-                        </div>
+                <span>
+                    Built for Local Entrepreneurs
+                </span>
 
-                        <div class="hero-benefits">
+                <h2>
+                    Your talent deserves
+                    a bigger audience.
+                </h2>
 
-                            <div class="benefit-item">
-                                <i class="bi bi-patch-check-fill"></i>
-                                <span>Verified Entrepreneurs</span>
-                            </div>
-
-                            <div class="benefit-item">
-                                <i class="bi bi-bag-check-fill"></i>
-                                <span>Unique Local Products</span>
-                            </div>
-
-                            <div class="benefit-item">
-                                <i class="bi bi-people-fill"></i>
-                                <span>Community Support</span>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <!-- Hero Image -->
-                <div class="col-lg-6">
-
-                    <div class="hero-image-wrapper">
-
-                        <div class="hero-image-background"></div>
-
-                        <img
-                            src="{{ url_for('static', filename='images/hero.jpg') }}"
-                            alt="Local entrepreneur displaying handmade products"
-                            class="hero-image">
-
-                        <div class="hero-info-card">
-
-                            <div class="info-icon">
-                                <i class="bi bi-shop-window"></i>
-                            </div>
-
-                            <div>
-                                <strong>Sell Your Skills</strong>
-                                <span>Build your entrepreneur profile</span>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                <p>
+                    Create your entrepreneur account,
+                    showcase your products and start building
+                    your digital presence with HunarHub.
+                </p>
 
             </div>
 
+
+            <div class="hh-cta-actions">
+
+                {% if not session.get("user_id") %}
+
+                <a
+                    href="{{ url_for('register') }}"
+                    class="hh-white-button">
+
+                    Become an Entrepreneur
+
+                    <i class="bi bi-arrow-up-right"></i>
+
+                </a>
+
+                {% else %}
+
+                <a
+                    href="{{ url_for('dashboard') }}"
+                    class="hh-white-button">
+
+                    Go to Dashboard
+
+                    <i class="bi bi-arrow-up-right"></i>
+
+                </a>
+
+                {% endif %}
+
+            </div>
+
+
         </div>
 
-    </section>
+    </div>
+
+</section>
+
+
 
 </main>
 
 
 
-    <!-- Bootstrap JavaScript -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-    </script>
+<!-- ======================================================
+     FOOTER
+====================================================== -->
 
-    <!-- Custom JavaScript -->
-    <script
-        src="{{ url_for('static', filename='js/script.js') }}">
-    </script>
+<footer class="hh-footer">
+
+    <div class="container">
+
+        <div class="hh-footer-grid">
+
+
+            <div class="hh-footer-brand">
+
+                <a class="navbar-brand" href="/">
+
+                    <span class="logo-icon">
+                        <i class="bi bi-shop"></i>
+                    </span>
+
+                    <span class="logo-text">
+                        Hunar<span>Hub</span>
+                    </span>
+
+                </a>
+
+                <p>
+                    A digital marketplace connecting
+                    customers with talented local
+                    entrepreneurs.
+                </p>
+
+            </div>
+
+
+
+            <div>
+
+                <h4>
+                    Marketplace
+                </h4>
+
+                <a href="{{ url_for('products') }}">
+                    Products
+                </a>
+
+                <a href="#categories">
+                    Categories
+                </a>
+
+                <a href="#entrepreneurs">
+                    Entrepreneurs
+                </a>
+
+            </div>
+
+
+
+            <div>
+
+                <h4>
+                    Account
+                </h4>
+
+                {% if session.get("user_id") %}
+
+                <a href="{{ url_for('dashboard') }}">
+                    Dashboard
+                </a>
+
+                <a href="{{ url_for('cart') }}">
+                    Cart
+                </a>
+
+                <a href="{{ url_for('logout') }}">
+                    Logout
+                </a>
+
+                {% else %}
+
+                <a href="{{ url_for('login') }}">
+                    Login
+                </a>
+
+                <a href="{{ url_for('register') }}">
+                    Register
+                </a>
+
+                {% endif %}
+
+            </div>
+
+
+
+            <div>
+
+                <h4>
+                    Our Mission
+                </h4>
+
+                <p>
+                    Empower local skills.
+                    Celebrate creativity.
+                    Support independent businesses.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="hh-footer-bottom">
+
+            <span>
+                © 2026 HunarHub. Digital Marketplace for Local Talent.
+            </span>
+
+            <span>
+                Made for local entrepreneurs.
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<!-- Bootstrap JS -->
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+<!-- Custom JS -->
+<script
+    src="{{ url_for('static', filename='js/script.js') }}">
+</script>
+
 
 </body>
-
 </html>

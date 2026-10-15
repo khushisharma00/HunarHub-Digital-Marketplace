@@ -127,6 +127,24 @@
                 {{ order["status"] }}
             </span>
 
+            {% if order["status"] not in ["Shipped", "Delivered", "Cancelled"] %}
+
+<form
+    action="{{ url_for('cancel_order', order_id=order['id']) }}"
+    method="POST"
+    style="display:inline;"
+>
+    <button
+        type="submit"
+        class="btn btn-sm btn-outline-danger"
+        onclick="return confirm('Are you sure you want to cancel this order?')"
+    >
+        Cancel Order
+    </button>
+</form>
+
+{% endif %}
+
             <p>
                 {{ order["created_at"] }}
             </p>
@@ -137,6 +155,8 @@
     {% endfor %}
 
 </section>
+
+
 
 {% else %}
             <!-- Empty Orders State -->

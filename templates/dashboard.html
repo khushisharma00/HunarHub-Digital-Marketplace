@@ -3,15 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <title>Dashboard | HunarHub</title>
+    <title>Customer Dashboard | HunarHub</title>
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
 
     <link
@@ -19,400 +16,568 @@
         rel="stylesheet">
 
     <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
 
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body class="dashboard-body">
+<body class="hh-customer-body">
 
-    <!-- Dashboard Navbar -->
-    <nav class="dashboard-navbar">
+<nav class="hh-customer-navbar">
 
-        <div class="container">
+    <div class="container-fluid px-lg-5">
 
-            <div class="dashboard-nav-content">
+        <div class="hh-customer-nav">
 
-                <a href="{{ url_for('home') }}" class="dashboard-logo">
+            <a href="{{ url_for('home') }}" class="hh-customer-logo">
 
-                    <span class="logo-icon">
-                        <i class="bi bi-shop"></i>
-                    </span>
+                <span class="logo-icon">
+                    <i class="bi bi-shop"></i>
+                </span>
 
-                    <span class="logo-text">
-                        Hunar<span>Hub</span>
-                    </span>
+                <span class="logo-text">
+                    Hunar<span>Hub</span>
+                </span>
 
+            </a>
+
+            <div class="hh-customer-nav-links">
+
+                <a href="{{ url_for('home') }}">
+                    <i class="bi bi-house"></i>
+                    Home
                 </a>
 
-                <div class="dashboard-nav-actions">
+                <a href="{{ url_for('products') }}">
+                    <i class="bi bi-grid"></i>
+                    Marketplace
+                </a>
 
-                    <a href="{{ url_for('home') }}">
-                        <i class="bi bi-house"></i>
-                        Home
-                    </a>
+                <a href="{{ url_for('dashboard') }}" class="active">
+                    <i class="bi bi-speedometer2"></i>
+                    Dashboard
+                </a>
 
-                    <a href="{{ url_for('logout') }}" class="dashboard-logout">
-                        <i class="bi bi-box-arrow-right"></i>
-                        Logout
-                    </a>
-
-                </div>
+                <a href="{{ url_for('logout') }}" class="hh-customer-logout">
+                    <i class="bi bi-box-arrow-right"></i>
+                    Logout
+                </a>
 
             </div>
 
         </div>
 
-    </nav>
+    </div>
+
+</nav>
 
 
-    <main class="dashboard-main">
+<main class="hh-customer-main">
 
-        <div class="container">
+<div class="container-fluid px-lg-5">
 
-            <!-- Welcome Section -->
-            <section class="dashboard-welcome">
+    <!-- HERO -->
 
-                <div>
+    <section class="hh-customer-welcome">
 
-                    <span class="welcome-tag">
-                        Customer Dashboard
-                    </span>
+        <div class="hh-customer-welcome-content">
 
-                    <h1>
-                        Welcome back,
-                        {{ session.get("user_name") }} 👋
-                    </h1>
+            <span class="hh-customer-eyebrow">
+                <i class="bi bi-stars"></i>
+                CUSTOMER DASHBOARD
+            </span>
 
-                    <p>
-                        Explore new handmade products from local entrepreneurs.
-                    </p>
+            <h1>
+                Welcome back,
+                <span>{{ session.get("user_name") }}</span>
+            </h1>
 
-                </div>
+            <p>
+                Discover handmade products, manage your shopping activity
+                and support talented local entrepreneurs.
+            </p>
 
-                <a href="{{ url_for('home') }}#products" class="dashboard-primary-btn">
-                    Explore Products
+            <div class="hh-customer-hero-actions">
+
+                <a href="{{ url_for('products') }}" class="hh-customer-primary">
+                    Explore Marketplace
+                    <i class="bi bi-arrow-up-right"></i>
+                </a>
+
+                <a href="{{ url_for('orders') }}" class="hh-customer-secondary">
+                    My Orders
                     <i class="bi bi-arrow-right"></i>
                 </a>
 
-            </section>
-
-
-            <!-- Dashboard Summary Cards -->
-            <section class="dashboard-summary">
-
-                
-                <a
-                  href="{{ url_for('orders') }}"
-                  class="summary-card summary-card-link">
-
-                   <div class="summary-icon">
-                        <i class="bi bi-box-seam"></i>
-                  </div>
-
-                    <div>
-                         <span>My Orders</span>
-                          <strong>0</strong>
-                    </div>
-
-                     <i class="bi bi-arrow-up-right summary-arrow"></i>
-
-                </a>
-
-
-                    <a
-                         href="{{ url_for('wishlist') }}"
-                          class="summary-card summary-card-link">
-
-                          <div class="summary-icon">
-                               <i class="bi bi-heart"></i>
-                          </div>
-
-                           <div>
-                                <span>Wishlist</span>
-                                 <strong>0</strong>
-                             </div>
-
-                              <i class="bi bi-arrow-up-right summary-arrow"></i>
-
-            
-                    </a>
-            
-
-                </article>
-
-
-                <article class="summary-card">
-
-                    <div class="summary-icon">
-                        <i class="bi bi-cart3"></i>
-                    </div>
-
-                    <div>
-                        <span>Cart Items</span>
-                        <strong>0</strong>
-                    </div>
-
-                    <a href="#" aria-label="Open cart">
-                        <i class="bi bi-arrow-up-right"></i>
-                    </a>
-
-                </article>
-
-
-                <article class="summary-card">
-
-                    <div class="summary-icon">
-                        <i class="bi bi-person"></i>
-                    </div>
-
-                    <div>
-                        <span>My Profile</span>
-                        <strong>View</strong>
-                    </div>
-
-                    <a href="#" aria-label="Open profile">
-                        <i class="bi bi-arrow-up-right"></i>
-                    </a>
-
-                </article>
-
-            </section>
-
-
-            <!-- Recommended Products -->
-            <section class="dashboard-section">
-
-                <div class="dashboard-section-heading">
-
-                    <div>
-                        <span>Recommended for You</span>
-                        <h2>Discover Handmade Products</h2>
-                    </div>
-
-                    <a href="{{ url_for('home') }}#products">
-                        View All
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
-
-                </div>
-
-
-                <div class="row g-4">
-
-                    <!-- Product 1 -->
-                    <div class="col-12 col-sm-6 col-lg-3">
-
-                        <article class="dashboard-product-card">
-
-                            <img
-                                src="{{ url_for('static', filename='images/pottery.jpg') }}"
-                                alt="Hand-painted terracotta vase">
-
-                            <div class="dashboard-product-info">
-
-                                <span>Pottery</span>
-
-                                <h3>Hand-Painted Terracotta Vase</h3>
-
-                                <p>By Meera Crafts</p>
-
-                                <div class="dashboard-product-bottom">
-
-                                    <strong>₹799</strong>
-
-                                  <form action="{{ url_for('add_to_cart', product_id=1) }}" method="GET">
-                                  <button type="submit" class="dashboard-cart-btn">
-                                  <i class="bi bi-bag-plus"></i>
-                                  </button>
-                                   </form>
-                                </div>
-
-                            </div>
-
-                        </article>
-
-                    </div>
-
-
-                    <!-- Product 2 -->
-                    <div class="col-12 col-sm-6 col-lg-3">
-
-                        <article class="dashboard-product-card">
-
-                            <img
-                                src="{{ url_for('static', filename='images/textiles.jpg') }}"
-                                alt="Traditional handloom stole">
-
-                            <div class="dashboard-product-info">
-
-                                <span>Textiles</span>
-
-                                <h3>Traditional Handloom Stole</h3>
-
-                                <p>By Asha Handlooms</p>
-
-                                <div class="dashboard-product-bottom">
-
-                                    <strong>₹1,249</strong>
-
-                            
-                                <form action="{{ url_for('add_to_cart', product_id=2) }}" method="GET">
-                                <button type="submit" class="dashboard-cart-btn">
-                                <i class="bi bi-bag-plus"></i>
-                                 </button>
-                                </form>
-                                </div>
-
-                            </div>
-
-                        </article>
-
-                    </div>
-
-
-                    <!-- Product 3 -->
-                    <div class="col-12 col-sm-6 col-lg-3">
-
-                        <article class="dashboard-product-card">
-
-                            <img
-                                src="{{ url_for('static', filename='images/jewellery.jpg') }}"
-                                alt="Traditional silver necklace">
-
-                            <div class="dashboard-product-info">
-
-                                <span>Jewellery</span>
-
-                                <h3>Traditional Silver Necklace</h3>
-
-                                <p>By Noor Jewellery</p>
-
-                                <div class="dashboard-product-bottom">
-
-                                    <strong>₹1,899</strong>
-
-                                
-                                <form action="{{ url_for('add_to_cart', product_id=3) }}" method="GET">
-                                 <button type="submit" class="dashboard-cart-btn">
-                                  <i class="bi bi-bag-plus"></i>
-                                 </button>
-                                </form>
-                                </div>
-
-                            </div>
-
-                        </article>
-
-                    </div>
-
-
-                    <!-- Product 4 -->
-                    <div class="col-12 col-sm-6 col-lg-3">
-
-                        <article class="dashboard-product-card">
-
-                            <img
-                                src="{{ url_for('static', filename='images/woodcraft.jpg') }}"
-                                alt="Hand-carved wooden box">
-
-                            <div class="dashboard-product-info">
-
-                                <span>Woodcraft</span>
-
-                                <h3>Hand-Carved Wooden Box</h3>
-
-                                <p>By Arjun Woodworks</p>
-
-                                <div class="dashboard-product-bottom">
-
-                                    <strong>₹999</strong>
-
-                        
-                                <form action="{{ url_for('add_to_cart', product_id=4) }}" method="GET">
-                                <button type="submit" class="dashboard-cart-btn">
-                                <i class="bi bi-bag-plus"></i>
-                               </button>
-                                </form>
-                                </div>
-
-                            </div>
-
-                        </article>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- Quick Actions -->
-            <section class="dashboard-section quick-actions-section">
-
-                <div class="dashboard-section-heading">
-
-                    <div>
-                        <span>Quick Actions</span>
-                        <h2>What Would You Like to Do?</h2>
-                    </div>
-
-                </div>
-
-
-                <div class="quick-actions-grid">
-
-                    <a href="{{ url_for('home') }}#categories" class="quick-action-card">
-
-                        <i class="bi bi-grid"></i>
-
-                        <div>
-                            <h3>Browse Categories</h3>
-                            <p>Explore products by craft category.</p>
-                        </div>
-
-                    </a>
-
-
-                    <a href="{{ url_for('home') }}#entrepreneurs" class="quick-action-card">
-
-                        <i class="bi bi-people"></i>
-
-                        <div>
-                            <h3>View Entrepreneurs</h3>
-                            <p>Discover skilled local sellers.</p>
-                        </div>
-
-                    </a>
-
-
-                    <a href="{{ url_for('register') }}" class="quick-action-card">
-
-                        <i class="bi bi-shop-window"></i>
-
-                        <div>
-                            <h3>Become an Entrepreneur</h3>
-                            <p>Create a seller account on HunarHub.</p>
-                        </div>
-
-                    </a>
-
-                </div>
-
-            </section>
+            </div>
 
         </div>
 
-    </main>
+
+        <div class="hh-customer-hero-card">
+
+            <span class="hh-customer-hero-icon">
+                <i class="bi bi-bag-heart"></i>
+            </span>
+
+            <div>
+                <span>Your HunarHub</span>
+                <strong>Shop local. Support talent.</strong>
+            </div>
+
+        </div>
+
+    </section>
 
 
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-    </script>
+    <!-- SUMMARY -->
+
+    <section class="hh-customer-kpis">
+
+        <a href="{{ url_for('orders') }}" class="hh-customer-kpi">
+
+            <div class="hh-customer-kpi-top">
+
+                <span class="hh-customer-kpi-icon">
+                    <i class="bi bi-box-seam"></i>
+                </span>
+
+                <span class="hh-customer-kpi-label">
+                    ORDERS
+                </span>
+
+            </div>
+
+            <h2>{{ total_orders }}</h2>
+
+            <p>Your placed orders</p>
+
+            <i class="bi bi-arrow-up-right hh-customer-kpi-arrow"></i>
+
+        </a>
+
+
+        <a href="{{ url_for('wishlist') }}" class="hh-customer-kpi">
+
+            <div class="hh-customer-kpi-top">
+
+                <span class="hh-customer-kpi-icon">
+                    <i class="bi bi-heart"></i>
+                </span>
+
+                <span class="hh-customer-kpi-label">
+                    WISHLIST
+                </span>
+
+            </div>
+
+            <h2>{{ wishlist_count }}</h2>
+
+            <p>Saved favourites</p>
+
+            <i class="bi bi-arrow-up-right hh-customer-kpi-arrow"></i>
+
+        </a>
+
+
+        <a href="{{ url_for('cart') }}" class="hh-customer-kpi hh-customer-kpi-highlight">
+
+            <div class="hh-customer-kpi-top">
+
+                <span class="hh-customer-kpi-icon">
+                    <i class="bi bi-cart3"></i>
+                </span>
+
+                <span class="hh-customer-kpi-label">
+                    CART
+                </span>
+
+            </div>
+
+            <h2>{{ cart_count }}</h2>
+
+            <p>Products ready to checkout</p>
+
+            <i class="bi bi-arrow-up-right hh-customer-kpi-arrow"></i>
+
+        </a>
+
+
+        <a href="{{ url_for('profile') }}" class="hh-customer-kpi">
+
+            <div class="hh-customer-kpi-top">
+
+                <span class="hh-customer-kpi-icon">
+                    <i class="bi bi-person"></i>
+                </span>
+
+                <span class="hh-customer-kpi-label">
+                    PROFILE
+                </span>
+
+            </div>
+
+            <h2 class="hh-customer-profile-text">
+                View
+            </h2>
+
+            <p>Account preferences</p>
+
+        </a>
+
+    </section>
+
+
+    <!-- RECOMMENDED -->
+
+    <section class="hh-customer-block">
+
+        <div class="hh-customer-section-header">
+
+            <div>
+
+                <span>
+                    RECOMMENDED FOR YOU
+                </span>
+
+                <h2>
+                    Discover handmade products
+                </h2>
+
+                <p>
+                    Explore unique products created by local entrepreneurs.
+                </p>
+
+            </div>
+
+            <a href="{{ url_for('products') }}">
+                View all products
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            <!-- Product 1 -->
+
+            <div class="col-sm-6 col-lg-3">
+
+                <article class="hh-customer-product-card">
+
+                    <div class="hh-customer-product-image">
+
+                        <img
+                            src="{{ url_for('static', filename='images/pottery.jpg') }}"
+                            alt="Hand-painted terracotta vase">
+
+                        <span>
+                            Pottery
+                        </span>
+
+                    </div>
+
+                    <div class="hh-customer-product-content">
+
+                        <small>
+                            Meera Crafts
+                        </small>
+
+                        <h3>
+                            Hand-Painted Terracotta Vase
+                        </h3>
+
+                        <div class="hh-customer-product-footer">
+
+                            <strong>
+                                ₹799
+                            </strong>
+
+                            <a
+                                href="{{ url_for('add_to_cart', product_id=1) }}"
+                                class="hh-customer-add-cart">
+
+                                <i class="bi bi-bag-plus"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- Product 2 -->
+
+            <div class="col-sm-6 col-lg-3">
+
+                <article class="hh-customer-product-card">
+
+                    <div class="hh-customer-product-image">
+
+                        <img
+                            src="{{ url_for('static', filename='images/textiles.jpg') }}"
+                            alt="Traditional handloom stole">
+
+                        <span>
+                            Textiles
+                        </span>
+
+                    </div>
+
+                    <div class="hh-customer-product-content">
+
+                        <small>
+                            Asha Handlooms
+                        </small>
+
+                        <h3>
+                            Traditional Handloom Stole
+                        </h3>
+
+                        <div class="hh-customer-product-footer">
+
+                            <strong>
+                                ₹1,249
+                            </strong>
+
+                            <a
+                                href="{{ url_for('add_to_cart', product_id=2) }}"
+                                class="hh-customer-add-cart">
+
+                                <i class="bi bi-bag-plus"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- Product 3 -->
+
+            <div class="col-sm-6 col-lg-3">
+
+                <article class="hh-customer-product-card">
+
+                    <div class="hh-customer-product-image">
+
+                        <img
+                            src="{{ url_for('static', filename='images/jewellery.jpg') }}"
+                            alt="Traditional silver necklace">
+
+                        <span>
+                            Jewellery
+                        </span>
+
+                    </div>
+
+                    <div class="hh-customer-product-content">
+
+                        <small>
+                            Noor Jewellery
+                        </small>
+
+                        <h3>
+                            Traditional Silver Necklace
+                        </h3>
+
+                        <div class="hh-customer-product-footer">
+
+                            <strong>
+                                ₹1,899
+                            </strong>
+
+                            <a
+                                href="{{ url_for('add_to_cart', product_id=3) }}"
+                                class="hh-customer-add-cart">
+
+                                <i class="bi bi-bag-plus"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- Product 4 -->
+
+            <div class="col-sm-6 col-lg-3">
+
+                <article class="hh-customer-product-card">
+
+                    <div class="hh-customer-product-image">
+
+                        <img
+                            src="{{ url_for('static', filename='images/woodcraft.jpg') }}"
+                            alt="Hand-carved wooden box">
+
+                        <span>
+                            Woodcraft
+                        </span>
+
+                    </div>
+
+                    <div class="hh-customer-product-content">
+
+                        <small>
+                            Arjun Woodworks
+                        </small>
+
+                        <h3>
+                            Hand-Carved Wooden Box
+                        </h3>
+
+                        <div class="hh-customer-product-footer">
+
+                            <strong>
+                                ₹999
+                            </strong>
+
+                            <a
+                                href="{{ url_for('add_to_cart', product_id=4) }}"
+                                class="hh-customer-add-cart">
+
+                                <i class="bi bi-bag-plus"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- QUICK ACTIONS -->
+
+    <section class="hh-customer-block">
+
+        <div class="hh-customer-section-header">
+
+            <div>
+
+                <span>
+                    QUICK ACTIONS
+                </span>
+
+                <h2>
+                    Explore HunarHub
+                </h2>
+
+                <p>
+                    Find more ways to discover and support local talent.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="hh-customer-action-grid">
+
+            <a
+                href="{{ url_for('products') }}"
+                class="hh-customer-action">
+
+                <span>
+                    <i class="bi bi-grid"></i>
+                </span>
+
+                <div>
+                    <h3>
+                        Browse Categories
+                    </h3>
+
+                    <p>
+                        Discover products across different crafts.
+                    </p>
+                </div>
+
+                <i class="bi bi-arrow-up-right"></i>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('home') }}#entrepreneurs"
+                class="hh-customer-action">
+
+                <span>
+                    <i class="bi bi-people"></i>
+                </span>
+
+                <div>
+                    <h3>
+                        Meet Entrepreneurs
+                    </h3>
+
+                    <p>
+                        Discover talented local creators.
+                    </p>
+                </div>
+
+                <i class="bi bi-arrow-up-right"></i>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('register') }}"
+                class="hh-customer-action">
+
+                <span>
+                    <i class="bi bi-shop-window"></i>
+                </span>
+
+                <div>
+                    <h3>
+                        Become an Entrepreneur
+                    </h3>
+
+                    <p>
+                        Start selling your own handmade products.
+                    </p>
+                </div>
+
+                <i class="bi bi-arrow-up-right"></i>
+
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+
+</main>
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
 
 </body>
-
 </html>
