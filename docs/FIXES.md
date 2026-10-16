@@ -78,3 +78,46 @@ This document records all problems, bugs, and edge cases discovered during engin
   3. Added inline `<head>` script in `client/index.html` evaluating `system` preference prior to React mounting.
   4. Added `aria-label`, `aria-pressed`, and keyboard triggers (Enter / Space) to desktop and mobile toggle buttons.
   5. Added `@media (prefers-reduced-motion: reduce)` in `client/src/index.css` to respect accessibility guidelines.
+
+---
+
+## 9. Missing Authentication Templates Causing 500 Internal Server Errors
+- **Location**: `templates/forgot_password.html`, `templates/reset_password.html`, `templates/login.html`
+- **What Was Broken**: Clicking "Forgot Password?" or accessing `/forgot_password` threw `jinja2.exceptions.TemplateNotFound: forgot_password.html`, returning a 500 error.
+- **Root Cause**: The view function `forgot_password` in `app.py` called `render_template("forgot_password.html")`, but the file did not exist in `templates/`.
+- **The Fix**: Created modern `forgot_password.html` and `reset_password.html` templates with complete dark mode and password visibility toggles, and connected the `Forgot Password?` link in `login.html`.
+
+---
+
+## 10. Pyrefly & VS Code `missing-import` Diagnostic Warnings
+- **Location**: `.vscode/settings.json`, `pyrefly.toml`, `pyproject.toml`
+- **What Was Broken**: VS Code and Pyrefly flagged `flask`, `qrcode`, `dotenv`, `itsdangerous`, and `werkzeug` as `missing-import`.
+- **Root Cause**: VS Code defaulted to the macOS system Python (`/usr/bin/python3`) where packages were not installed, rather than `.venv/bin/python3`.
+- **The Fix**: Added `.vscode/settings.json`, `pyrefly.toml`, and `pyproject.toml` pointing explicitly to `.venv/bin/python3` and `.venv/lib/python3.12/site-packages`.
+
+---
+
+## 11. Pyrefly `bad-argument-type` & Duplicate Unreachable Code
+- **Location**: `app.py` lines 40, 1106, 1609, 1874, 2157
+- **What Was Broken**: Pyrefly reported 4 strict type check errors:
+  1. `app.secret_key` (type `bytes | str | None`) passed to `URLSafeTimedSerializer`.
+  2. `image_file.filename` (type `str | None`) passed to `secure_filename`.
+  3. Mixed string/float types appended to `params: list[str]`.
+  4. Keyword argument `format="PNG"` on `qr.save()`.
+  5. Duplicate unreachable block in `edit_product`.
+- **The Fix**: Defined string constant `SECRET_KEY`, guarded `image_file.filename`, typed `params: list = []`, used positional `"PNG"`, and deleted dead code block.
+
+---
+
+## 12. Missing Modern React `/profile` Route & Customer Profile Update Endpoints
+- **Location**: `client/src/App.jsx`, `client/src/pages/Profile.jsx`, `server/controllers/authController.js`, `server/routes/authRoutes.js`
+- **What Was Broken**: Navigating to `/profile` in the React frontend returned a 404 Not Found error. Customers had no portal to update their name, email, phone, or password.
+- **The Fix**: Created `client/src/pages/Profile.jsx`, added `/profile` route to `App.jsx`, added links in `Navbar.jsx`, and implemented `PUT /api/auth/profile` and `POST /api/auth/change-password` in the backend.
+
+---
+
+## 13. Misplaced Password Change Button in `templates/profile.html`
+- **Location**: `templates/profile.html` lines 122–128
+- **What Was Broken**: The "Change Password" button was nested inside the Jinja `get_flashed_messages` loop, making it invisible on normal page loads.
+- **The Fix**: Extracted the button into permanent, styled buttons in both the sidebar and form actions, and made "Back to Dashboard" smart based on user role.
+
