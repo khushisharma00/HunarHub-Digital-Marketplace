@@ -217,63 +217,73 @@ def create_database():
             demo_products
         )
 
-        connection.execute("""
-CREATE TABLE IF NOT EXISTS wishlist (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    product_id INTEGER NOT NULL,
-    UNIQUE(user_id, product_id),
-    FOREIGN KEY(user_id) REFERENCES users(id),
-    FOREIGN KEY(product_id) REFERENCES products(id)
-)
-""")
-        
-   
-    
     connection.execute("""
-CREATE TABLE IF NOT EXISTS orders (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    total_amount REAL NOT NULL,
-    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
-""") 
-    
-    connection.execute("""
-CREATE TABLE IF NOT EXISTS order_items (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    order_id INTEGER NOT NULL,
-    product_id INTEGER NOT NULL,
-    quantity INTEGER NOT NULL,
-    price REAL NOT NULL
-)
-""")
+    CREATE TABLE IF NOT EXISTS wishlist (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        product_id INTEGER NOT NULL,
+        UNIQUE(user_id, product_id),
+        FOREIGN KEY(user_id) REFERENCES users(id),
+        FOREIGN KEY(product_id) REFERENCES products(id)
+    )
+    """)
 
+    connection.execute("""
+    CREATE TABLE IF NOT EXISTS orders (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        total_amount REAL NOT NULL,
+        status TEXT DEFAULT 'Placed',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        full_name TEXT,
+        phone TEXT,
+        address TEXT,
+        city TEXT,
+        state TEXT,
+        pincode TEXT,
+        payment_method TEXT,
+        payment_status TEXT DEFAULT 'Pending'
+    )
+    """) 
+
+    connection.execute("""
+    CREATE TABLE IF NOT EXISTS order_items (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        order_id INTEGER NOT NULL,
+        product_id INTEGER NOT NULL,
+        quantity INTEGER NOT NULL,
+        price REAL NOT NULL
+    )
+    """)
 
     # =========================
-    # PAYMENT DETAILS
+    # ORDERS COLUMN MIGRATIONS
     # =========================
-
-    order_columns = connection.execute(
-        "PRAGMA table_info(orders)"
-    ).fetchall()
-
-    existing_order_columns = [
-        column["name"] for column in order_columns
+    order_columns = [
+        col["name"] for col in connection.execute("PRAGMA table_info(orders)").fetchall()
     ]
 
-    if "payment_method" not in existing_order_columns:
-        connection.execute(
-            "ALTER TABLE orders ADD COLUMN payment_method TEXT"
-        )
+    needed_order_cols = {
+        "status": "TEXT DEFAULT 'Placed'",
+        "created_at": "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+        "order_date": "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+        "full_name": "TEXT",
+        "phone": "TEXT",
+        "address": "TEXT",
+        "city": "TEXT",
+        "state": "TEXT",
+        "pincode": "TEXT",
+        "payment_method": "TEXT",
+        "payment_status": "TEXT DEFAULT 'Pending'"
+    }
 
-    if "payment_status" not in existing_order_columns:
-        connection.execute(
-            """
-            ALTER TABLE orders
-            ADD COLUMN payment_status TEXT DEFAULT 'Pending'
-            """
-        )
+    for col_name, col_def in needed_order_cols.items():
+        if col_name not in order_columns:
+            try:
+                connection.execute(f"ALTER TABLE orders ADD COLUMN {col_name} {col_def}")
+            except sqlite3.OperationalError:
+                pass
 
     connection.commit()
     connection.close()
@@ -2137,7 +2147,7 @@ def checkout():
     )
 
         # Create UPI payment link
-    upi_id = os.getenv("HUNARHUB_UPI_ID")
+    upi_id = os.getenv("HUNARHUB_UPI_ID") or "hunarhub@upi"
 
     upi_params = {
         "pa": upi_id,
@@ -2151,15 +2161,16 @@ def checkout():
         upi_params
     )
 
-    # Generate QR code
-    qr = qrcode.make(upi_url)
-
-    buffer = io.BytesIO()
-    qr.save(buffer, format="PNG")
-
-    qr_code = base64.b64encode(
-        buffer.getvalue()
-    ).decode("utf-8")
+    qr_code = ""
+    try:
+        qr = qrcode.make(upi_url)
+        buffer = io.BytesIO()
+        qr.save(buffer, format="PNG")
+        qr_code = base64.b64encode(
+            buffer.getvalue()
+        ).decode("utf-8")
+    except Exception as e:
+        qr_code = ""
 
     connection.close()
 

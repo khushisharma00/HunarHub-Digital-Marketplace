@@ -175,11 +175,11 @@
         <aside class="hh-profile-premium-summary">
 
             <div class="hh-profile-avatar-large">
-                {{ user["full_name"][0]|upper }}
+                {{ (user["full_name"] or 'User')[0]|upper }}
             </div>
 
             <span class="hh-profile-account-label">
-                {{ user["role"]|upper }} ACCOUNT
+                {{ (user["role"] or 'customer')|upper }} ACCOUNT
             </span>
 
             <h2>
@@ -376,7 +376,5 @@
 <script
     src="{{ url_for('static', filename='js/script.js') }}">
 </script>
-
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

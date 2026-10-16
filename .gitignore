@@ -48,3 +48,6 @@ venv/
 # OS metadata
 .DS_Store
 Thumbs.db
+
+# Backup / local working copies
+khushi2/

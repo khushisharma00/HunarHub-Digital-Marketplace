@@ -541,7 +541,7 @@ export default function AdminDashboard() {
                 </div>
                 <div className="text-right">
                   <span className="font-extrabold text-slate-900 dark:text-white text-sm">₹{Number(o.total_amount).toFixed(0)}</span>
-                  <p className="text-emerald-700 dark:text-emerald-400 text-[10px] font-semibold">{o.payment_method}</p>
+                  <p className="text-emerald-700 dark:text-emerald-400 text-[10px] font-semibold">{o.payment_method || 'Pay on Delivery'}</p>
                 </div>
               </div>
             ))}
