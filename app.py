@@ -34,10 +34,11 @@ os.makedirs(
 )
 
 # Session और flash messages के लिए
-app.secret_key = "hunarhub-secret-key-2026"
+SECRET_KEY = os.getenv("SECRET_KEY", "hunarhub-secret-key-2026")
+app.secret_key = SECRET_KEY
 
 password_reset_serializer = URLSafeTimedSerializer(
-    app.secret_key
+    SECRET_KEY
 )
 
 DATABASE = "hunarhub.db"
@@ -1093,7 +1094,7 @@ def add_product():
             flash("Please fill in all product details.", "danger")
             return redirect(url_for("add_product"))
 
-        if not image_file or image_file.filename == "":
+        if not image_file or not image_file.filename:
             flash("Please select a product image.", "danger")
             return redirect(url_for("add_product"))
 
@@ -1103,7 +1104,7 @@ def add_product():
 
         stock = int(stock)
 
-        filename = secure_filename(image_file.filename)
+        filename = secure_filename(image_file.filename or "")
 
         allowed_extensions = {"png", "jpg", "jpeg", "webp"}
 
@@ -1605,18 +1606,6 @@ def edit_product(product_id):
         product=product
     )
 
-    product = connection.execute(
-        "SELECT * FROM products WHERE id=?",
-        (product_id,)
-    ).fetchone()
-
-    connection.close()
-
-    return render_template(
-        "edit_product.html",
-        product=product
-    )
-
 @app.route("/delete_product/<int:product_id>")
 def delete_product(product_id):
 
@@ -1855,7 +1844,7 @@ def products():
     connection = get_db_connection()
 
     query = "SELECT * FROM products WHERE 1=1"
-    params = []
+    params: list = []
 
     if search:
         query += " AND (name LIKE ? OR seller LIKE ? OR category LIKE ?)"
@@ -2165,7 +2154,7 @@ def checkout():
     try:
         qr = qrcode.make(upi_url)
         buffer = io.BytesIO()
-        qr.save(buffer, format="PNG")
+        qr.save(buffer, "PNG")
         qr_code = base64.b64encode(
             buffer.getvalue()
         ).decode("utf-8")
