@@ -95,10 +95,17 @@ export default function Navbar() {
             <button
               type="button"
               onClick={toggleTheme}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  toggleTheme();
+                }
+              }}
               id="desktop-theme-toggle-btn"
-              className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-slate-800 transition-colors"
-              title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              aria-label="Toggle dark mode"
+              className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-pressed={isDark}
             >
               {isDark ? (
                 <Sun className="w-5 h-5 text-amber-400" />
@@ -252,10 +259,17 @@ export default function Navbar() {
             <button
               type="button"
               onClick={toggleTheme}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  toggleTheme();
+                }
+              }}
               id="mobile-theme-toggle-btn"
-              className="p-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-              title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              aria-label="Toggle dark mode"
+              className="p-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-pressed={isDark}
             >
               {isDark ? (
                 <Sun className="w-5 h-5 text-amber-400" />
