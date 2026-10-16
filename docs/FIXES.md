@@ -116,8 +116,20 @@ This document records all problems, bugs, and edge cases discovered during engin
 
 ---
 
-## 13. Misplaced Password Change Button in `templates/profile.html`
-- **Location**: `templates/profile.html` lines 122–128
-- **What Was Broken**: The "Change Password" button was nested inside the Jinja `get_flashed_messages` loop, making it invisible on normal page loads.
-- **The Fix**: Extracted the button into permanent, styled buttons in both the sidebar and form actions, and made "Back to Dashboard" smart based on user role.
+---
+
+## 14. Missing Comprehensive Dark/Light Mode Styling & Stale Browser Cache
+- **Location**: `static/css/style.css`, `static/js/script.js`, `templates/profile.html`, `templates/dashboard.html`, `templates/seller_dashboard.html`, `templates/base.html`, `app.py`
+- **What Was Broken**: Clicking the theme toggle button in the navbar did not properly switch the Profile and Dashboard views into dark mode. Cards, disabled input fields, and headings remained bright white with dark text. In addition, the browser cached older `style.css` and `script.js` files, preventing updates from rendering.
+- **Root Cause**:
+  1. Profile card (`.hh-profile-premium-card`), heading (`.hh-profile-card-heading h2`), disabled inputs, and dashboard KPI cards had hardcoded light background colors (`#ffffff`) and dark text (`#13231f`) with no dark mode override selectors.
+  2. Flask default static file caching kept serving older CSS/JS files without refreshing changes.
+  3. Toggle buttons lacked immediate inline fallback handlers if clicked before external script parsing finished.
+- **The Fix**:
+  1. Added full dark mode support across `[data-bs-theme="dark"]`, `[data-theme="dark"]`, and `html.dark` in `static/css/style.css` for Profile, Customer Dashboard, Seller Dashboard, Admin Dashboard, and Auth cards.
+  2. Enhanced `static/js/script.js` to synchronize theme classes and attributes across both `<html>` and `<body>`, dynamically toggle sun/moon icons, and sync across tabs via `storage` events.
+  3. Added inline `onclick` fallbacks and cache-busting query params (`?v=2.6`) across all templates.
+  4. Configured `SEND_FILE_MAX_AGE_DEFAULT = 0` and an `@app.after_request` hook in `app.py` sending `Cache-Control: no-cache, no-store, must-revalidate` for all static assets during development.
+  5. Implemented an automated Flask test suite (`tests/test_flask_app.py`, 13 tests) verifying that all routes, authentication, dashboards, profile editing, and theme buttons render with 100% success.
+
 
