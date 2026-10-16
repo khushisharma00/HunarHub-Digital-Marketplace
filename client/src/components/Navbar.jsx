@@ -207,6 +207,15 @@ export default function Navbar() {
                     )}
 
                     <Link
+                      to="/profile"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center space-x-2.5 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-orange-50 dark:hover:bg-slate-800 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+                    >
+                      <User className="w-4 h-4 text-orange-500" />
+                      <span>My Profile</span>
+                    </Link>
+
+                    <Link
                       to="/notifications"
                       onClick={() => setUserDropdownOpen(false)}
                       className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-orange-50 dark:hover:bg-slate-800 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
@@ -354,6 +363,13 @@ export default function Navbar() {
                   Admin Console
                 </Link>
               )}
+              <Link
+                to="/profile"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-3 py-2 rounded-lg font-semibold text-slate-700 dark:text-slate-200 hover:bg-orange-50 dark:hover:bg-slate-800"
+              >
+                My Profile
+              </Link>
               <Link
                 to="/notifications"
                 onClick={() => setMobileMenuOpen(false)}

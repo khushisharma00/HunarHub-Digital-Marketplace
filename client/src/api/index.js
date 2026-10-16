@@ -40,6 +40,8 @@ export const api = {
   register: (payload) => request('/api/auth/register', { method: 'POST', body: JSON.stringify(payload) }),
   login: (payload) => request('/api/auth/login', { method: 'POST', body: JSON.stringify(payload) }),
   getMe: () => request('/api/auth/me'),
+  updateUserProfile: (payload) => request('/api/auth/profile', { method: 'PUT', body: JSON.stringify(payload) }),
+  changePassword: (payload) => request('/api/auth/change-password', { method: 'POST', body: JSON.stringify(payload) }),
 
   // Categories
   getCategories: () => request('/api/categories'),

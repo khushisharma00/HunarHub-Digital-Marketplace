@@ -20,6 +20,7 @@ import CustomerDashboard from './pages/CustomerDashboard';
 import EntrepreneurDashboard from './pages/EntrepreneurDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import NotificationsPage from './pages/NotificationsPage';
+import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 
 // Protected Route Guards
@@ -101,6 +102,16 @@ export default function App() {
                   element={
                     <ProtectedRoute>
                       <NotificationsPage />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* Protected User Profile */}
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <Profile />
                     </ProtectedRoute>
                   }
                 />

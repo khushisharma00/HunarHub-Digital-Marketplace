@@ -108,24 +108,9 @@
 
             {% for category, message in messages %}
 
-                <div class="alert alert-{{ category }}
-                            alert-dismissible fade show mb-4">
-
+                <div class="alert alert-{{ category }} alert-dismissible fade show mb-4" role="alert">
                     {{ message }}
-
-                    <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="alert">
-                    </button>
-
-                    <a
-                    href="{{ url_for('change_password') }}"
-                     class="btn btn-outline-success"
-                     >
-                     Change Password
-                     </a>
-
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
 
             {% endfor %}
@@ -157,7 +142,7 @@
 
         </div>
 
-        <a href="{{ url_for('dashboard') }}"
+        <a href="{{ url_for('seller_dashboard' if user['role'] == 'entrepreneur' else 'admin_dashboard' if user['role'] == 'admin' else 'dashboard') }}"
            class="hh-profile-back">
 
             <i class="bi bi-arrow-left"></i>
@@ -234,6 +219,12 @@
 
                 </div>
 
+            </div>
+
+            <div class="mt-4 pt-3 border-top">
+                <a href="{{ url_for('change_password') }}" class="btn btn-outline-success w-100 rounded-pill py-2 font-semibold">
+                    <i class="bi bi-key me-1"></i> Change Password
+                </a>
             </div>
 
         </aside>
@@ -341,11 +332,15 @@
 
                 <div class="hh-profile-form-actions">
 
-                    <a href="{{ url_for('dashboard') }}"
+                    <a href="{{ url_for('seller_dashboard' if user['role'] == 'entrepreneur' else 'admin_dashboard' if user['role'] == 'admin' else 'dashboard') }}"
                        class="hh-profile-cancel">
-
                         Cancel
+                    </a>
 
+                    <a href="{{ url_for('change_password') }}"
+                       class="btn btn-outline-secondary px-4 py-2 rounded-xl fw-semibold d-inline-flex align-items-center gap-1">
+                        <i class="bi bi-key"></i>
+                        Change Password
                     </a>
 
                     <button
