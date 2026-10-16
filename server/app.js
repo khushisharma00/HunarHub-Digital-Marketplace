@@ -59,6 +59,16 @@ app.get('/health', (req, res) => {
   });
 });
 
+// MongoDB Status & Telemetry Endpoint
+app.get('/api/mongodb/status', (req, res) => {
+  try {
+    const { getConnectionStatus } = require('./config/mongoose');
+    res.json({ success: true, mongodb: getConnectionStatus() });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // Mount API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);

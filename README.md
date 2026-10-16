@@ -2,10 +2,10 @@
 
 > **Live Demo & Source Code**: Connecting local Indian micro-entrepreneurs (Cobblers, Potters/Kumhars, Tailors, Artisans, Small Vendors) with conscious customers for on-demand doorstep service bookings and authentic handmade crafts.
 
-[![Tests](https://img.shields.io/badge/tests-34%20passed-success)](server/tests/api.test.js)
+[![Tests](https://img.shields.io/badge/tests-40%20passed-success)](server/tests/api.test.js)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-v20%2B-green.svg)](https://nodejs.org/)
-[![Database](https://img.shields.io/badge/database-PostgreSQL%20%7C%20SQLite-blue.svg)](https://www.postgresql.org/)
+[![Database](https://img.shields.io/badge/database-MongoDB%20%7C%20PostgreSQL%20%7C%20SQLite-blue.svg)](docs/MONGODB_SETUP.md)
 
 ---
 
@@ -26,10 +26,12 @@ Local micro-entrepreneurs form the backbone of India's cultural and informal eco
 
 - **Frontend**: React 18, Vite, Tailwind CSS, React Router v6, Lucide Icons
 - **Backend**: Node.js, Express REST API
-- **Database**: PostgreSQL (Production on Render) with Knex.js query builder, featuring SQLite3 adapter for seamless zero-setup local development and automated testing
+- **Database**:
+  - **MongoDB / Mongoose (MERN Stack)**: Full document schemas, compound indexes, and seed scripts. See [docs/MONGODB_SETUP.md](docs/MONGODB_SETUP.md).
+  - **PostgreSQL / SQLite3**: Relational engine with Knex.js query builder for production Render PostgreSQL and local SQLite.
 - **Authentication**: JWT (JSON Web Tokens), bcryptjs password hashing (10 salt rounds), Role-Based Access Control (RBAC)
 - **Security**: Helmet HTTP headers, CORS whitelisting, Express Rate Limiting (15 attempts/15 mins on login), parameterized queries (SQL injection prevention), 5MB file upload filtering
-- **Deployment**: Render (Backend + Managed PostgreSQL), Vercel/Netlify (Frontend)
+- **Deployment**: Render (Backend + Managed PostgreSQL / MongoDB Atlas), Vercel/Netlify (Frontend)
 
 ---
 
