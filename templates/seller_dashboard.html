@@ -714,7 +714,7 @@
                         <td>
 
                             <strong class="hh-table-price">
-                                ₹{{ "%.0f"|format(order["seller_amount"]) }}
+                                ₹{{ "%.0f"|format(order["seller_amount"] or 0) }}
                             </strong>
 
                         </td>

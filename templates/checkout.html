@@ -245,6 +245,7 @@
         Pay via UPI
     </h6>
 
+    {% if qr_code %}
     <div class="text-center mb-3">
 
         <img
@@ -253,6 +254,7 @@
             style="width: 190px; height: 190px;">
 
     </div>
+    {% endif %}
 
     <p class="text-center text-muted mb-2">
         Scan using Paytm, PhonePe, Google Pay

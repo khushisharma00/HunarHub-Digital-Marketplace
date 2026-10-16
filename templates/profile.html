@@ -201,7 +201,7 @@
 
                     <div>
                         <small>Account Type</small>
-                        <strong>{{ user["role"]|title }}</strong>
+                        <strong>{{ (user["role"] or 'customer')|title }}</strong>
                     </div>
 
                 </div>
@@ -320,7 +320,7 @@
 
                         <input
                             type="text"
-                            value="{{ user['role']|title }}"
+                            value="{{ (user['role'] or 'customer')|title }}"
                             disabled>
 
                     </div>

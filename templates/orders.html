@@ -128,13 +128,13 @@
             <span>Order #{{ order["id"] }}</span>
 
             <h3>
-                ₹{{ "{:,.0f}".format(order["total_amount"]) }}
+                ₹{{ "{:,.0f}".format(order["total_amount"] or 0) }}
             </h3>
         </div>
 
         <div>
             <span class="order-status">
-                {{ order["status"] }}
+                {{ order["status"] or 'Placed' }}
             </span>
 
             {% if order["status"] not in ["Shipped", "Delivered", "Cancelled"] %}
