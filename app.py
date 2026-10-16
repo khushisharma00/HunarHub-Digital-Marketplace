@@ -27,6 +27,8 @@ UPLOAD_FOLDER = os.path.join(
 )
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 os.makedirs(
     app.config["UPLOAD_FOLDER"],
@@ -2367,6 +2369,15 @@ def remove_from_wishlist(wishlist_id):
     connection.close()
 
     return redirect(url_for("wishlist"))
+
+
+@app.after_request
+def add_no_cache_headers(response):
+    if request.path.startswith('/static/'):
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+    return response
 
 
 if __name__ == "__main__":

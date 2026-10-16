@@ -1,6 +1,6 @@
 /**
  * HunarHub Universal Theme & UI Script
- * Controls Dark Mode toggle, persistence in localStorage, and floating UI across all pages.
+ * Controls Dark Mode toggle, persistence in localStorage, and theme synchronization across all pages.
  */
 (function() {
     'use strict';
@@ -26,6 +26,8 @@
             root.setAttribute('data-theme', 'dark');
             root.classList.add('dark');
             if (body) {
+                body.setAttribute('data-bs-theme', 'dark');
+                body.setAttribute('data-theme', 'dark');
                 body.classList.add('dark-mode');
                 body.classList.add('dark');
             }
@@ -34,6 +36,8 @@
             root.setAttribute('data-theme', 'light');
             root.classList.remove('dark');
             if (body) {
+                body.setAttribute('data-bs-theme', 'light');
+                body.setAttribute('data-theme', 'light');
                 body.classList.remove('dark-mode');
                 body.classList.remove('dark');
             }
@@ -53,8 +57,9 @@
         buttons.forEach(function(btn) {
             btn.setAttribute('title', isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode');
             btn.setAttribute('aria-label', isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode');
-            var icon = btn.querySelector('i');
-            if (icon) {
+            btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+            var icon = btn.querySelector('i, svg');
+            if (icon && icon.tagName.toLowerCase() === 'i') {
                 if (isDark) {
                     icon.className = 'bi bi-sun-fill text-warning';
                 } else {
@@ -69,9 +74,10 @@
                       document.documentElement.classList.contains('dark') ? 'dark' : 'light';
         var nextTheme = current === 'dark' ? 'light' : 'dark';
         applyTheme(nextTheme);
+        return nextTheme;
     }
 
-    // Apply immediately to prevent flash
+    // Apply immediately to prevent flash of light theme
     var initialTheme = getPreferredTheme();
     document.documentElement.setAttribute('data-bs-theme', initialTheme);
     document.documentElement.setAttribute('data-theme', initialTheme);
@@ -83,18 +89,18 @@
         var currentTheme = getPreferredTheme();
         applyTheme(currentTheme);
 
-        // Attach listeners to any existing navbar toggle buttons
+        // Attach click listeners to all navbar theme toggle buttons
         var existingBtns = document.querySelectorAll('#themeToggleBtn, #desktop-theme-toggle-btn, #mobile-theme-toggle-btn');
         existingBtns.forEach(function(btn) {
             btn.onclick = function(e) {
-                e.preventDefault();
+                if (e) e.preventDefault();
                 toggleTheme();
             };
         });
 
-        // If no navbar toggle exists on this page, create an elegant floating toggle button
+        // Create floating button only if no navbar toggle exists on this page
         var floatingBtn = document.getElementById('hh-floating-theme-toggle');
-        if (!floatingBtn) {
+        if (!floatingBtn && existingBtns.length === 0) {
             floatingBtn = document.createElement('button');
             floatingBtn.id = 'hh-floating-theme-toggle';
             floatingBtn.type = 'button';
@@ -107,7 +113,7 @@
             floatingBtn.appendChild(icon);
 
             floatingBtn.onclick = function(e) {
-                e.preventDefault();
+                if (e) e.preventDefault();
                 toggleTheme();
             };
 
@@ -117,19 +123,22 @@
         updateToggleButtons(currentTheme);
     }
 
+    // Run as soon as DOM is ready or immediately if already interactive
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initThemeUI);
     } else {
         initThemeUI();
     }
 
-    // Listen for storage changes across tabs
+    // Listen for storage changes across browser tabs
     window.addEventListener('storage', function(e) {
         if (e.key === 'hunarhub_theme' && (e.newValue === 'dark' || e.newValue === 'light')) {
             applyTheme(e.newValue);
         }
     });
 
-    // Expose toggleTheme globally
+    // Expose toggleTheme and applyTheme globally for inline HTML onclick fallbacks
     window.hunarhubToggleTheme = toggleTheme;
+    window.hunarhubApplyTheme = applyTheme;
 })();
+

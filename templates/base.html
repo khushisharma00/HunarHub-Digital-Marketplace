@@ -16,12 +16,18 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=2.6">
 
     <script>
         (function() {
-            const savedTheme = localStorage.getItem('hunarhub_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-            document.documentElement.setAttribute('data-bs-theme', savedTheme);
+            try {
+                const savedTheme = localStorage.getItem('hunarhub_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-bs-theme', savedTheme);
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                if (savedTheme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) {}
         })();
     </script>
 </head>
@@ -67,7 +73,7 @@
                     </li>
 
                     <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-                        <button id="themeToggleBtn" type="button" class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;" title="Toggle Dark/Light Mode">
+                        <button id="themeToggleBtn" type="button" onclick="window.hunarhubToggleTheme ? window.hunarhubToggleTheme() : (function(){ var r=document.documentElement; var isD=r.getAttribute('data-bs-theme')==='dark'||r.classList.contains('dark'); var n=isD?'light':'dark'; r.setAttribute('data-bs-theme',n); r.setAttribute('data-theme',n); if(n==='dark'){r.classList.add('dark');if(document.body)document.body.classList.add('dark','dark-mode');}else{r.classList.remove('dark');if(document.body)document.body.classList.remove('dark','dark-mode');} localStorage.setItem('hunarhub_theme',n); })()" class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;" title="Toggle Dark/Light Mode" aria-label="Toggle dark mode">
                             <i class="bi bi-moon-stars" id="themeIcon"></i>
                         </button>
                     </li>
@@ -80,7 +86,7 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}?v=2.6"></script>
 </body>
 
 </html>
