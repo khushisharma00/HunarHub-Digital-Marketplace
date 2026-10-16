@@ -59,6 +59,8 @@ HunarHub-Digital Marketplace/
 ├── docs/                       # Project documentation
 │   ├── PLAN.md
 │   ├── PRD.md
+│   ├── FIXES.md                # Detailed record of all bugs found and fixed
+│   ├── TESTING.md              # Automated test suite coverage and live results
 │   ├── technical_documentation.md
 │   ├── project_report.md
 │   ├── demo_script.md

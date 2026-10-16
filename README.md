@@ -2,7 +2,7 @@
 
 > **Live Demo & Source Code**: Connecting local Indian micro-entrepreneurs (Cobblers, Potters/Kumhars, Tailors, Artisans, Small Vendors) with conscious customers for on-demand doorstep service bookings and authentic handmade crafts.
 
-[![Tests](https://img.shields.io/badge/tests-30%20passed-success)](tests/api.test.js)
+[![Tests](https://img.shields.io/badge/tests-34%20passed-success)](server/tests/api.test.js)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-v20%2B-green.svg)](https://nodejs.org/)
 [![Database](https://img.shields.io/badge/database-PostgreSQL%20%7C%20SQLite-blue.svg)](https://www.postgresql.org/)
